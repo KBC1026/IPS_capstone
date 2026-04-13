@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 관리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 1100px;
+            margin: 30px auto;
+        }
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+        }
+        .nav a {
+            display: inline-block;
+            margin-right: 12px;
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+        .nav a:hover {
+            background: #4b5563;
+        }
+        .table-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background: #f9fafb;
+        }
+        .unlock-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .unlock-btn:hover {
+            background: #1d4ed8;
+        }
+        .role-admin {
+            color: #7c3aed;
+            font-weight: bold;
+        }
+        .role-user {
+            color: #374151;
+        }
+        .empty {
+            color: #6b7280;
+            padding: 10px 0;
+        }
+        form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>사용자 관리</h1>
+            <p>관리자: <strong>{{ username }}</strong></p>
+            <div class="nav">
+                <a href="{{ url_for('admin') }}">관리자 대시보드</a>
+                <a href="{{ url_for('logs') }}">전체 로그 보기</a>
+                <a href="{{ url_for('logout') }}">로그아웃</a>
+            </div>
+        </div>
+
+        <div class="table-box">
+            {% if users %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>사용자명</th>
+                        <th>권한</th>
+                        <th>실패 횟수</th>
+                        <th>잠금 해제 시각</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            {% if user.role == 'admin' %}
+                                <span class="role-admin">admin</span>
+                            {% else %}
+                                <span class="role-user">user</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.failed_count }}</td>
+                        <td>{{ user.locked_until if user.locked_until else '-' }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('unlock_user', user_id=user.id) }}">
+                                <button type="submit" class="unlock-btn">잠금 해제</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <div class="empty">사용자 데이터가 없습니다.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

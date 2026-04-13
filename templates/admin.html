@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 1100px;
+            margin: 30px auto;
+        }
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+        }
+        .nav a {
+            display: inline-block;
+            margin-right: 12px;
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+        .nav a:hover {
+            background: #4b5563;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #111827;
+        }
+        .stat {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #111827;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background: #f9fafb;
+        }
+        .success {
+            color: #16a34a;
+            font-weight: bold;
+        }
+        .fail {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: #e5e7eb;
+            color: #111827;
+        }
+        .empty {
+            color: #6b7280;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>관리자 대시보드</h1>
+            <p>환영합니다, <strong>{{ username }}</strong> 님</p>
+            <div class="nav">
+                <a href="{{ url_for('dashboard') }}">사용자 대시보드</a>
+                <a href="{{ url_for('logs') }}">전체 로그 보기</a>
+                <a href="{{ url_for('admin_users') }}">사용자 관리</a>
+                <a href="{{ url_for('logout') }}">로그아웃</a>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>전체 로그인 시도</h3>
+                <div class="stat">{{ stats.total_attempts or 0 }}</div>
+            </div>
+            <div class="card">
+                <h3>로그인 성공</h3>
+                <div class="stat">{{ stats.success_count or 0 }}</div>
+            </div>
+            <div class="card">
+                <h3>로그인 실패</h3>
+                <div class="stat">{{ stats.fail_count or 0 }}</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>최근 로그인 로그</h2>
+            {% if recent_logs %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>입력 ID</th>
+                        <th>성공 여부</th>
+                        <th>클라이언트 IP</th>
+                        <th>사유</th>
+                        <th>시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in recent_logs %}
+                    <tr>
+                        <td>{{ log.input_id }}</td>
+                        <td>
+                            {% if log.success == 1 %}
+                                <span class="success">성공</span>
+                            {% else %}
+                                <span class="fail">실패</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ log.client_ip }}</td>
+                        <td><span class="badge">{{ log.reason }}</span></td>
+                        <td>{{ log.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <div class="empty">로그가 없습니다.</div>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h2>실패 횟수 상위 공격 IP</h2>
+            {% if top_attack_ips %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>IP 주소</th>
+                        <th>실패 횟수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ip in top_attack_ips %}
+                    <tr>
+                        <td>{{ ip.client_ip }}</td>
+                        <td>{{ ip.fail_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <div class="empty">공격 IP 데이터가 없습니다.</div>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h2>잠긴 계정 목록</h2>
+            {% if locked_users %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>사용자명</th>
+                        <th>실패 횟수</th>
+                        <th>잠금 해제 시각</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in locked_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.failed_count }}</td>
+                        <td>{{ user.locked_until }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <div class="empty">현재 잠긴 계정이 없습니다.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
