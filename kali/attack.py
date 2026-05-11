@@ -28,7 +28,7 @@ for i, data in enumerate(payloads, start=1):
     try:
         res = requests.post(
             url,
-            json=data,
+            data=data,
             timeout=5
         )
 
