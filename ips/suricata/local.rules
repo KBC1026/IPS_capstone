@@ -6,6 +6,10 @@ alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB brute force - repeated PO
 
 alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB credential stuffing - excessive POST /login"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login"; detection_filter:track by_src, count 12, seconds 30; classtype:web-application-attack; sid:1000004; rev:1;)
 
-alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB admin page access"; flow:established,to_server; http.uri; content:"/admin"; classtype:web-application-activity; sid:1000008; rev:1;)
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB SQL Injection attempt - tautology"; flow:established,to_server; http.uri; content:"/login"; http.request_body; pcre:"/(%27|'|%22|\")\s*(or|OR)\s*(%27|'|%22|\")?[0-9a-zA-Z_]+\s*(=|%3d)\s*(%27|'|%22|\")?[0-9a-zA-Z_]+/"; classtype:web-application-attack; sid:1000005; rev:1;)
 
-alert tcp any any -> 192.168.2.100 5000 (msg:"TEST TCP HIT"; sid:9999999; rev:1;)
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB SQL Injection attempt - union select"; flow:established,to_server; http.uri; content:"/login"; http.request_body; pcre:"/union\s+select/i"; classtype:web-application-attack; sid:1000006; rev:1;)
+
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB SQL Injection attempt - SQL comment"; flow:established,to_server; http.uri; content:"/login"; http.request_body; pcre:"/(--|%2d%2d|#|%23|\/\*)/i"; threshold:type limit, track by_src, count 3, seconds 60; classtype:web-application-attack; sid:1000007; rev:1;)
+
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB admin page access"; flow:established,to_server; http.uri; content:"/admin"; classtype:web-application-activity; sid:1000008; rev:1;)
