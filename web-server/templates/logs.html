@@ -25,17 +25,28 @@
         .header h1 {
             margin: 0 0 10px 0;
         }
-        .nav a {
+        .nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav a, .nav button {
             display: inline-block;
-            margin-right: 12px;
             text-decoration: none;
             color: white;
             background: #374151;
             padding: 10px 14px;
             border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font: inherit;
         }
-        .nav a:hover {
+        .nav a:hover, .nav button:hover {
             background: #4b5563;
+        }
+        .nav form {
+            margin: 0;
         }
         .filter-box {
             background: white;
@@ -105,7 +116,10 @@
             <div class="nav">
                 <a href="{{ url_for('admin') }}">관리자 대시보드</a>
                 <a href="{{ url_for('admin_users') }}">사용자 관리</a>
-                <a href="{{ url_for('logout') }}">로그아웃</a>
+                <form method="post" action="{{ url_for('logout') }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit">로그아웃</button>
+                </form>
             </div>
         </div>
 

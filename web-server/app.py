@@ -1,9 +1,13 @@
 
 from datetime import datetime
+import hmac
+import ipaddress
+import json
+import logging
 import os
+import re
 import secrets
 import time
-import re
 
 from flask import Flask, abort, request, session, redirect, url_for, render_template, jsonify
 import mysql.connector
@@ -26,6 +30,8 @@ app.config.update(
     SESSION_COOKIE_SECURE=os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true",
 )
 
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
+
 DB_CONFIG = {
     "host": os.environ.get("DB_HOST", "192.168.2.200"),
     "user": os.environ.get("DB_USER", "webuser"),
@@ -38,6 +44,7 @@ MAX_FAILED_COUNT = 10
 LOCK_MINUTES = 15
 IP_WINDOW_MINUTES = 10
 IP_MAX_FAILS = 20
+TRUST_PROXY_HEADERS = os.environ.get("TRUST_PROXY_HEADERS", "false").lower() == "true"
 TRUSTED_PROXY_IPS = {
     ip.strip()
     for ip in os.environ.get("TRUSTED_PROXY_IPS", "192.168.2.1,127.0.0.1,::1").split(",")
@@ -55,27 +62,59 @@ def limit_text(value, max_length):
     return str(value)[:max_length]
 
 
+def is_valid_ip(value):
+    try:
+        ipaddress.ip_address(value)
+        return True
+    except ValueError:
+        return False
+
+
 def get_client_ip():
     remote_addr = request.remote_addr or "unknown"
     xff = request.headers.get("X-Forwarded-For", "")
-    if remote_addr in TRUSTED_PROXY_IPS and xff:
-        return xff.split(",")[0].strip()
+
+    if TRUST_PROXY_HEADERS and remote_addr in TRUSTED_PROXY_IPS and xff:
+        forwarded_ip = xff.split(",")[0].strip()
+        if is_valid_ip(forwarded_ip):
+            return forwarded_ip
+
     return remote_addr
 
 
 def get_csrf_token():
-    token = session.get("csrf_token")
+    token = session.get("_csrf_token")
     if not token:
         token = secrets.token_urlsafe(32)
-        session["csrf_token"] = token
+        session["_csrf_token"] = token
     return token
 
 
 def validate_csrf_token():
-    expected = session.get("csrf_token")
-    supplied = request.form.get("csrf_token", "")
-    if not expected or not secrets.compare_digest(expected, supplied):
-        abort(400)
+    expected = session.get("_csrf_token")
+    supplied = (
+        request.form.get("_csrf_token")
+        or request.headers.get("X-CSRF-Token")
+        or (request.get_json(silent=True) or {}).get("csrf_token")
+    )
+    return bool(expected and supplied and hmac.compare_digest(expected, supplied))
+
+
+@app.context_processor
+def inject_csrf_token():
+    return {"csrf_token": get_csrf_token}
+
+
+@app.after_request
+def set_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "same-origin")
+    response.headers.setdefault(
+        "Content-Security-Policy",
+        "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'"
+    )
+    return response
 
 
 def detect_sqli(input_text):
@@ -107,96 +146,163 @@ def log_login_attempt(username, success, client_ip, reason=""):
     client_ip = limit_text(client_ip, 45)
     reason = limit_text(reason, 64)
 
-    conn = get_db()
-    cur = conn.cursor()
-    cur.execute(
-        """
-        INSERT INTO login_logs (input_id, success, client_ip, reason, created_at)
-        VALUES (%s, %s, %s, %s, NOW())
-        """,
-        (username, 1 if success else 0, client_ip, reason)
-    )
-    cur.close()
-    conn.close()
+    log_security_event(username, success, client_ip, reason)
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO login_logs (input_id, success, client_ip, reason, created_at)
+            VALUES (%s, %s, %s, %s, NOW())
+            """,
+            (username, 1 if success else 0, client_ip, reason)
+        )
+    except mysql.connector.Error:
+        app.logger.exception("failed to write login attempt to database")
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+def log_security_event(username, success, client_ip, reason):
+    severity = "info" if success else "medium"
+    if reason in {"sqli_attempt", "ip_rate_limited", "account_locked_after_fail"}:
+        severity = "high"
+    elif reason.startswith("forbidden") or reason.startswith("unauthorized"):
+        severity = "medium"
+
+    event = {
+        "event_type": "web_login",
+        "event_category": "authentication",
+        "outcome": "success" if success else "failure",
+        "severity": severity,
+        "src_ip": client_ip,
+        "user": username,
+        "reason": reason,
+        "path": request.path,
+        "method": request.method,
+        "user_agent": request.headers.get("User-Agent", ""),
+    }
+    app.logger.info(json.dumps(event, ensure_ascii=False))
 
 
 def get_recent_failed_count_by_ip(client_ip):
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    cur.execute(
-        """
-        SELECT COUNT(*) AS cnt
-        FROM login_logs
-        WHERE client_ip = %s
-          AND success = 0
-          AND created_at >= (NOW() - INTERVAL %s MINUTE)
-        """,
-        (client_ip, IP_WINDOW_MINUTES)
-    )
-    row = cur.fetchone()
-    cur.close()
-    conn.close()
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute(
+            """
+            SELECT COUNT(*) AS cnt
+            FROM login_logs
+            WHERE client_ip = %s
+              AND success = 0
+              AND created_at >= (NOW() - INTERVAL %s MINUTE)
+            """,
+            (client_ip, IP_WINDOW_MINUTES)
+        )
+        row = cur.fetchone()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
     return row["cnt"] if row else 0
 
 
 def get_user_by_username(username):
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    cur.execute(
-        """
-        SELECT id, username, password_hash, role, failed_count, locked_until
-        FROM users
-        WHERE username = %s
-        """,
-        (username,)
-    )
-    user = cur.fetchone()
-    cur.close()
-    conn.close()
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute(
+            """
+            SELECT id, username, password_hash, role, failed_count, locked_until
+            FROM users
+            WHERE username = %s
+            """,
+            (username,)
+        )
+        user = cur.fetchone()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
     return user
 
 
+def get_user_role_by_id(user_id):
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute("SELECT role FROM users WHERE id = %s", (user_id,))
+        user = cur.fetchone()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+    return user["role"] if user else None
+
+
 def reset_user_fail_state(user_id):
-    conn = get_db()
-    cur = conn.cursor()
-    cur.execute(
-        """
-        UPDATE users
-        SET failed_count = 0,
-            locked_until = NULL
-        WHERE id = %s
-        """,
-        (user_id,)
-    )
-    cur.close()
-    conn.close()
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE users
+            SET failed_count = 0,
+                locked_until = NULL
+            WHERE id = %s
+            """,
+            (user_id,)
+        )
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 def register_user_fail(user_id):
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
 
-    cur.execute(
-        """
-        UPDATE users
-        SET failed_count = failed_count + 1,
-            locked_until = CASE
-                WHEN failed_count + 1 >= %s THEN DATE_ADD(NOW(), INTERVAL %s MINUTE)
-                ELSE locked_until
-            END
-        WHERE id = %s
-        """,
-        (MAX_FAILED_COUNT, LOCK_MINUTES, user_id)
-    )
-    cur.execute(
-        "SELECT failed_count FROM users WHERE id = %s",
-        (user_id,)
-    )
-    row = cur.fetchone()
-    failed_count = row["failed_count"] if row else 0
-
-    cur.close()
-    conn.close()
+        cur.execute(
+            """
+            UPDATE users
+            SET failed_count = failed_count + 1,
+                locked_until = CASE
+                    WHEN failed_count + 1 >= %s THEN DATE_ADD(NOW(), INTERVAL %s MINUTE)
+                    ELSE locked_until
+                END
+            WHERE id = %s
+            """,
+            (MAX_FAILED_COUNT, LOCK_MINUTES, user_id)
+        )
+        cur.execute("SELECT failed_count FROM users WHERE id = %s", (user_id,))
+        row = cur.fetchone()
+        failed_count = row["failed_count"] if row else 0
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
     return failed_count
 
 
@@ -205,7 +311,14 @@ def is_logged_in():
 
 
 def is_admin():
-    return session.get("role") == "admin"
+    if session.get("role") != "admin" or not session.get("user_id"):
+        return False
+
+    try:
+        return get_user_role_by_id(session["user_id"]) == "admin"
+    except mysql.connector.Error:
+        app.logger.exception("failed to verify admin role")
+        return False
 
 
 @app.route("/", methods=["GET"])
@@ -213,15 +326,23 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/csrf-token", methods=["GET"])
+def csrf_token_api():
+    return jsonify({"csrf_token": get_csrf_token()})
+
+
 @app.route("/login", methods=["POST"])
 def login():
-
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "").strip()
-
-
     client_ip = get_client_ip()
+    payload = request.get_json(silent=True) if request.is_json else None
+    username = ((payload or {}).get("id") or (payload or {}).get("username") or request.form.get("id") or request.form.get("username") or "").strip()
+    password = ((payload or {}).get("pw") or (payload or {}).get("password") or request.form.get("pw") or request.form.get("password") or "").strip()
+    wants_json = request.is_json or "application/json" in request.headers.get("Accept", "")
+
+    if not validate_csrf_token():
+        log_login_attempt(username if username else "unknown", False, client_ip, reason="csrf_failed")
+        time.sleep(0.5)
+        return jsonify({"message": "로그인에 실패했습니다."}), 400
 
     # SQL Injection 시도 탐지
     if detect_sqli(username) or detect_sqli(password):
@@ -263,6 +384,9 @@ def login():
         session["role"] = user["role"]
         session["client_ip"] = client_ip
 
+        next_url = url_for("admin") if user["role"] == "admin" else url_for("dashboard")
+        if wants_json:
+            return jsonify({"message": "로그인에 성공했습니다.", "next": next_url})
         if user["role"] == "admin":
             return redirect(url_for("admin"))
         return redirect(url_for("dashboard"))
@@ -302,55 +426,60 @@ def admin():
         log_login_attempt(session.get("username", "unknown"), False, get_client_ip(), reason="forbidden_admin_access")
         return jsonify({"message": "접근 권한이 없습니다."}), 403
 
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
 
-    cur.execute(
-        """
-        SELECT
-            COUNT(*) AS total_attempts,
-            SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) AS success_count,
-            SUM(CASE WHEN success = 0 THEN 1 ELSE 0 END) AS fail_count
-        FROM login_logs
-        """
-    )
-    stats = cur.fetchone()
+        cur.execute(
+            """
+            SELECT
+                COUNT(*) AS total_attempts,
+                SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) AS success_count,
+                SUM(CASE WHEN success = 0 THEN 1 ELSE 0 END) AS fail_count
+            FROM login_logs
+            """
+        )
+        stats = cur.fetchone()
 
-    cur.execute(
-        """
-        SELECT input_id, success, client_ip, reason, created_at
-        FROM login_logs
-        ORDER BY created_at DESC
-        LIMIT 20
-        """
-    )
-    recent_logs = cur.fetchall()
+        cur.execute(
+            """
+            SELECT input_id, success, client_ip, reason, created_at
+            FROM login_logs
+            ORDER BY created_at DESC
+            LIMIT 20
+            """
+        )
+        recent_logs = cur.fetchall()
 
-    cur.execute(
-        """
-        SELECT client_ip, COUNT(*) AS fail_count
-        FROM login_logs
-        WHERE success = 0
-        GROUP BY client_ip
-        ORDER BY fail_count DESC
-        LIMIT 10
-        """
-    )
-    top_attack_ips = cur.fetchall()
+        cur.execute(
+            """
+            SELECT client_ip, COUNT(*) AS fail_count
+            FROM login_logs
+            WHERE success = 0
+            GROUP BY client_ip
+            ORDER BY fail_count DESC
+            LIMIT 10
+            """
+        )
+        top_attack_ips = cur.fetchall()
 
-    cur.execute(
-        """
-        SELECT username, failed_count, locked_until
-        FROM users
-        WHERE locked_until IS NOT NULL
-          AND locked_until > NOW()
-        ORDER BY locked_until DESC
-        """
-    )
-    locked_users = cur.fetchall()
-
-    cur.close()
-    conn.close()
+        cur.execute(
+            """
+            SELECT username, failed_count, locked_until
+            FROM users
+            WHERE locked_until IS NOT NULL
+              AND locked_until > NOW()
+            ORDER BY locked_until DESC
+            """
+        )
+        locked_users = cur.fetchall()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
     return render_template(
         "admin.html",
@@ -397,12 +526,18 @@ def logs():
 
     query += " ORDER BY created_at DESC LIMIT 200"
 
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    cur.execute(query, tuple(params))
-    logs = cur.fetchall()
-    cur.close()
-    conn.close()
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute(query, tuple(params))
+        logs = cur.fetchall()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
     return render_template(
         "logs.html",
@@ -422,24 +557,29 @@ def admin_users():
         log_login_attempt(session.get("username", "unknown"), False, get_client_ip(), reason="forbidden_user_admin_access")
         return jsonify({"message": "접근 권한이 없습니다."}), 403
 
-    conn = get_db()
-    cur = conn.cursor(dictionary=True)
-    cur.execute(
-        """
-        SELECT id, username, role, failed_count, locked_until
-        FROM users
-        ORDER BY id ASC
-        """
-    )
-    users = cur.fetchall()
-    cur.close()
-    conn.close()
+    conn = None
+    cur = None
+    try:
+        conn = get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute(
+            """
+            SELECT id, username, role, failed_count, locked_until
+            FROM users
+            ORDER BY id ASC
+            """
+        )
+        users = cur.fetchall()
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
     return render_template(
         "admin_users.html",
         users=users,
-        username=session.get("username"),
-        csrf_token=get_csrf_token()
+        username=session.get("username")
     )
 
 
@@ -452,13 +592,18 @@ def unlock_user(user_id):
         log_login_attempt(session.get("username", "unknown"), False, get_client_ip(), reason="forbidden_unlock_access")
         return jsonify({"message": "접근 권한이 없습니다."}), 403
 
-    validate_csrf_token()
+    if not validate_csrf_token():
+        log_login_attempt(session.get("username", "unknown"), False, get_client_ip(), reason="csrf_failed_unlock")
+        return jsonify({"message": "잘못된 요청입니다."}), 400
+
     reset_user_fail_state(user_id)
     return redirect(url_for("admin_users"))
 
 
-@app.route("/logout", methods=["GET"])
+@app.route("/logout", methods=["POST"])
 def logout():
+    if not validate_csrf_token():
+        return jsonify({"message": "잘못된 요청입니다."}), 400
     session.clear()
     return redirect(url_for("index"))
 
