@@ -1,0 +1,645 @@
+2026-04-08 04:19:36.424713 | brute_force | 1234 | 401
+2026-04-08 04:19:37.306971 | brute_force | admin | 401
+2026-04-08 04:19:38.188369 | brute_force | password | 401
+2026-04-08 04:23:59.298404 | brute_force | 1234 | 401
+2026-04-08 04:24:00.183354 | brute_force | admin | 401
+2026-04-08 04:24:01.065143 | brute_force | password | 401
+2026-04-08 04:24:55.089439 | brute_force | 1234 | 401
+2026-04-08 04:24:55.971579 | brute_force | admin | 401
+2026-04-08 04:24:56.852205 | brute_force | password | 401
+2026-04-08 04:31:50.470543 | brute_force | 1234 | 401
+2026-04-08 04:31:51.353864 | brute_force | admin | 401
+2026-04-08 04:31:52.236532 | brute_force | password | 401
+2026-04-08 05:13:54.254244 | brute_force | 1234 | 401
+2026-04-08 05:13:55.135669 | brute_force | admin | 401
+2026-04-08 05:13:56.017518 | brute_force | password | 401
+2026-04-08 13:43:17 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 13:43:18 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-08 13:43:20 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 13:43:21 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 13:43:23 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 13:43:24 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 13:43:25 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 13:43:27 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 13:43:28 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 13:43:30 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 13:43:57 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 13:43:59 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-08 13:44:00 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 13:44:01 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 13:44:03 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 13:44:04 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 13:44:05 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 13:44:07 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 13:44:08 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 13:44:10 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 13:44:38 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 13:44:39 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 13:44:41 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 13:44:42 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 13:44:44 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 13:44:46 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 13:44:47 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 13:44:49 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 13:44:50 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 13:44:52 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 13:48:23 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 13:48:25 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 13:48:26 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 13:48:28 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 13:48:30 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 13:48:31 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 13:48:33 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 13:48:34 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 13:48:36 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 13:48:37 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 13:49:04 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 13:49:06 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 13:49:07 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 13:49:09 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 13:49:11 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 13:49:12 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 13:49:14 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 13:49:15 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 13:49:17 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 13:49:18 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 13:55:00 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 13:55:02 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 13:55:03 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 13:55:05 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 13:55:06 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 13:55:08 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 13:55:10 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 13:55:11 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 13:55:13 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 13:55:14 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 13:59:15 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 13:59:16 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-08 13:59:18 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 13:59:19 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 13:59:21 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 13:59:22 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 13:59:23 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 13:59:25 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 13:59:26 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 13:59:28 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 14:22:26 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479770e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:32 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f2747953750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:37 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f274783c050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:43 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479c2fd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:48 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479c36f0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:54 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27478545f0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:22:59 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479e3020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:23:05 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479e3790>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:23:10 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479e39b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:23:16 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f27479e3bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:45:52 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fd20dfff0e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:45:57 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fd20dfdf750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:46:03 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fd20ded4050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:46:08 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fd20e02b230>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 14:51:53 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 14:51:54 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-08 14:51:56 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 14:51:57 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 14:51:58 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 14:52:00 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 14:52:01 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 14:52:03 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 14:52:04 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 14:52:05 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 14:52:09 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 14:52:11 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-08 14:52:12 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 14:52:13 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 14:52:15 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 14:52:16 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 14:52:18 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 14:52:19 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 14:52:20 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 14:52:22 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 14:55:20 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 14:55:22 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 14:55:24 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 14:55:25 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 14:55:27 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 14:55:28 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 14:55:30 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 14:55:31 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 14:55:33 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 14:55:34 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 14:56:47 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 14:56:49 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 14:56:50 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 14:56:52 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 14:56:53 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 14:56:55 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 14:56:56 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 14:56:58 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 14:57:00 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 14:57:01 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 14:57:55 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 14:57:56 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 14:57:58 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 14:57:59 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 14:58:01 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 14:58:02 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 14:58:04 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 14:58:06 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 14:58:07 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 14:58:09 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 14:58:13 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 14:58:14 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 14:58:16 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 14:58:18 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 14:58:19 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 14:58:21 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 14:58:22 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 14:58:24 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 14:58:25 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 14:58:27 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:06:51 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:06:52 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:06:54 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:06:55 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:06:57 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:06:58 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:07:00 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:07:02 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:07:03 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:07:05 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:09:22 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 15:09:24 | brute_force | attempt=2 | user=test | pw=1234 | status=200
+2026-04-08 15:09:25 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-08 15:09:26 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-08 15:09:28 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-08 15:09:29 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-08 15:09:31 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-08 15:09:32 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-08 15:09:34 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-08 15:09:35 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-08 15:10:30 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 15:10:31 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:10:33 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:10:34 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:10:36 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:10:37 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:10:39 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:10:40 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:10:42 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:10:44 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:18:28 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 15:18:30 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:18:31 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:18:33 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:18:34 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:18:36 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:18:37 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:18:39 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:18:40 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:18:42 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:20:12 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:20:14 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:20:15 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:20:17 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:20:18 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:20:20 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:20:22 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:20:23 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:20:25 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:20:26 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:20:57 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:20:59 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:21:00 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:21:02 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:21:03 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:21:05 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:21:06 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:21:08 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:21:09 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:21:11 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:23:36 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:23:38 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:23:39 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:23:41 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:23:42 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:23:44 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:23:45 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:23:47 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:23:48 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:23:50 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:24:07 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:24:08 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:24:10 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:24:12 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:24:13 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:24:15 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:24:16 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:24:18 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:24:19 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:24:21 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:30:13 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:30:15 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:30:17 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:30:18 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:30:20 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:30:21 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:30:23 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:30:24 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:30:26 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:30:27 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:36:31 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 15:36:32 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 15:36:34 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 15:36:36 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 15:36:37 | brute_force | attempt=5 | user=test | pw=qwer | status=423
+2026-04-08 15:36:39 | brute_force | attempt=6 | user=test | pw=asdf | status=423
+2026-04-08 15:36:40 | brute_force | attempt=7 | user=test | pw=zxcv | status=423
+2026-04-08 15:36:42 | brute_force | attempt=8 | user=test | pw=0000 | status=423
+2026-04-08 15:36:44 | brute_force | attempt=9 | user=test | pw=9999 | status=423
+2026-04-08 15:36:45 | brute_force | attempt=10 | user=test | pw=guest | status=423
+2026-04-08 15:37:05 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:37:07 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:37:08 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:37:10 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:37:11 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:37:13 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:37:15 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:37:16 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:37:18 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:37:19 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:38:28 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:38:29 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:38:31 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:38:32 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:38:34 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:38:35 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:38:37 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:38:38 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:38:40 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:38:42 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:49:25 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-08 15:49:27 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 15:49:28 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 15:49:30 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 15:49:31 | brute_force | attempt=5 | user=test | pw=qwer | status=423
+2026-04-08 15:49:33 | brute_force | attempt=6 | user=test | pw=asdf | status=423
+2026-04-08 15:49:34 | brute_force | attempt=7 | user=test | pw=zxcv | status=423
+2026-04-08 15:49:36 | brute_force | attempt=8 | user=test | pw=0000 | status=423
+2026-04-08 15:49:38 | brute_force | attempt=9 | user=test | pw=9999 | status=423
+2026-04-08 15:49:39 | brute_force | attempt=10 | user=test | pw=guest | status=423
+2026-04-08 15:52:15 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 15:52:16 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 15:52:18 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 15:52:24 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-08 15:52:26 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 15:52:27 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 15:52:29 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 15:52:30 | brute_force | attempt=5 | user=test | pw=qwer | status=423
+2026-04-08 15:52:32 | brute_force | attempt=6 | user=test | pw=asdf | status=423
+2026-04-08 15:52:34 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:52:35 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:52:37 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:52:38 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 15:52:46 | brute_force | attempt=1 | user=test | pw=1111 | status=429
+2026-04-08 15:52:48 | brute_force | attempt=2 | user=test | pw=1234 | status=429
+2026-04-08 15:52:49 | brute_force | attempt=3 | user=test | pw=admin | status=429
+2026-04-08 15:52:51 | brute_force | attempt=4 | user=test | pw=password | status=429
+2026-04-08 15:52:52 | brute_force | attempt=5 | user=test | pw=qwer | status=429
+2026-04-08 15:52:54 | brute_force | attempt=6 | user=test | pw=asdf | status=429
+2026-04-08 15:52:55 | brute_force | attempt=7 | user=test | pw=zxcv | status=429
+2026-04-08 15:52:57 | brute_force | attempt=8 | user=test | pw=0000 | status=429
+2026-04-08 15:52:58 | brute_force | attempt=9 | user=test | pw=9999 | status=429
+2026-04-08 15:53:00 | brute_force | attempt=10 | user=test | pw=guest | status=429
+2026-04-08 16:03:07 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-08 16:03:09 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 16:03:10 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 16:03:12 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 16:03:13 | brute_force | attempt=5 | user=test | pw=qwer | status=423
+2026-04-08 16:03:15 | brute_force | attempt=6 | user=test | pw=asdf | status=423
+2026-04-08 16:03:16 | brute_force | attempt=7 | user=test | pw=zxcv | status=423
+2026-04-08 16:03:18 | brute_force | attempt=8 | user=test | pw=0000 | status=423
+2026-04-08 16:03:20 | brute_force | attempt=9 | user=test | pw=9999 | status=423
+2026-04-08 16:03:21 | brute_force | attempt=10 | user=test | pw=guest | status=423
+2026-04-08 16:05:16 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-08 16:05:18 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 16:05:20 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 16:05:21 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 16:05:23 | brute_force | attempt=5 | user=test | pw=qwer | status=423
+2026-04-08 16:05:24 | brute_force | attempt=6 | user=test | pw=asdf | status=423
+2026-04-08 16:05:26 | brute_force | attempt=7 | user=test | pw=zxcv | status=423
+2026-04-08 16:05:28 | brute_force | attempt=8 | user=test | pw=0000 | status=423
+2026-04-08 16:05:29 | brute_force | attempt=9 | user=test | pw=9999 | status=423
+2026-04-08 16:05:31 | brute_force | attempt=10 | user=test | pw=guest | status=423
+2026-04-08 16:14:07 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-08 16:14:08 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-08 16:14:10 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-08 16:14:11 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-08 16:14:13 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f637476a060>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 16:14:18 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f637474b9b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 16:14:24 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f63747ad040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-08 16:16:22 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-08 16:16:23 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-09 02:57:05 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-09 02:57:06 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-09 02:57:08 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-09 02:57:09 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-09 02:57:11 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb2e060>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 02:57:17 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb179b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 02:57:22 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb71040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 02:57:28 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb72470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 02:57:33 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb72690>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 02:57:39 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7fa2dcb728b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:25 | brute_force | attempt=1 | user=test | pw=1111 | status=423
+2026-04-09 03:11:27 | brute_force | attempt=2 | user=test | pw=1234 | status=423
+2026-04-09 03:11:28 | brute_force | attempt=3 | user=test | pw=admin | status=423
+2026-04-09 03:11:30 | brute_force | attempt=4 | user=test | pw=password | status=423
+2026-04-09 03:11:31 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac19e060>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:37 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac1839b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:42 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac1e1040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:48 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac1e2470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:53 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac1e2690>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-09 03:11:59 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f1dac1e28b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:20 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc14f0e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:25 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc127750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:31 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc018050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:36 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc173230>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:42 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc173950>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:47 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc02c4d0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:53 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6f10>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:06:59 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:04 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b78a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:10 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7ac0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:15 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b78a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:21 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:26 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:32 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:37 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:43 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:48 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:54 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:07:59 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b68b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:05 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:10 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:16 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:21 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:27 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b5f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:32 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b5ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:38 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b5ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:43 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b5f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:49 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:08:54 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:00 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:05 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:11 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b68b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:16 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:22 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:27 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b6be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:33 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f92fc1b7570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:47 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ebaf0e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:53 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175eb87750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:09:58 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ea78050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:04 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ebd3230>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:09 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ebd3950>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:15 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ea884d0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:21 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16f10>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:26 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:32 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:37 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17ac0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:43 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:48 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:54 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:10:59 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:05 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:10 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:16 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:21 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:27 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:32 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:38 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:43 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:49 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:11:54 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:00 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:05 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:11 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:16 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:22 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:27 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:33 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:38 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:44 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:49 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:12:55 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:00 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:06 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:11 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:17 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:22 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:28 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:33 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec158c0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:39 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:44 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:50 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:13:55 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:01 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:06 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:12 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:17 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:23 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:28 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:34 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:39 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:45 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:50 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:14:56 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:01 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:07 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:12 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:18 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:23 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:29 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:35 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:40 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:46 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:51 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:15:57 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:02 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:08 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:13 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:19 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:24 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:30 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:35 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:41 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:46 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:52 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:16:57 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:03 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:08 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:14 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:19 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:25 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:30 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:36 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:41 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:47 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:52 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:17:58 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:03 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:09 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15ae0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:14 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:20 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:25 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:31 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:36 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:42 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:47 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:53 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:18:58 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:04 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:09 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:15 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:20 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:26 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:31 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:37 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:42 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:48 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:53 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:19:59 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:04 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:10 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:15 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:21 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:26 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:32 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:37 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:43 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:49 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:20:54 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:00 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:05 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:11 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:16 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:22 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:27 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:33 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:38 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:44 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:49 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:21:55 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:00 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:06 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:11 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:17 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:22 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:28 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:33 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:39 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:44 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17bd0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:50 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:22:55 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:01 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:06 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:12 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:17 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:23 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:28 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:34 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:39 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:45 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:50 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:23:56 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:01 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:07 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:12 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:18 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15040>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:23 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec15f20>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:29 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16030>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:34 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16470>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:40 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:45 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:51 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:24:56 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:02 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:07 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:13 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:18 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:24 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:29 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:35 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:40 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:46 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec149e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:51 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec149e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:25:57 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec157b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:02 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec178a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:08 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17130>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:13 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17240>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:19 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:24 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17570>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:30 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16be0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:35 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16cf0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:41 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec17020>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:46 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec168b0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:52 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16580>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:26:58 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f175ec16250>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:34:20 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f362c4830e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:34:26 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f362c45b750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:34:31 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f362c34c050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:34:37 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7f362c4a7230>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-19 15:43:50 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-19 15:43:52 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-19 15:43:53 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-19 15:43:54 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-19 15:43:56 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-19 15:43:57 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-25 10:18:58 | brute_force | attempt=1 | user=test | pw=1111 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb644af0e0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:03 | brute_force | attempt=2 | user=test | pw=1234 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb6448b750>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:09 | brute_force | attempt=3 | user=test | pw=admin | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb64380050>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:14 | brute_force | attempt=4 | user=test | pw=password | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb644d7230>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:20 | brute_force | attempt=5 | user=test | pw=qwer | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb644d7950>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:25 | brute_force | attempt=6 | user=test | pw=asdf | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb643905f0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:31 | brute_force | attempt=7 | user=test | pw=zxcv | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb6451af10>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:36 | brute_force | attempt=8 | user=test | pw=0000 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb6451b680>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:42 | brute_force | attempt=9 | user=test | pw=9999 | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb6451b8a0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:19:47 | brute_force | attempt=10 | user=test | pw=guest | error=HTTPConnectionPool(host='192.168.2.100', port=5000): Max retries exceeded with url: /login (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.2.100', port=5000) at 0x7ffb6451bac0>, 'Connection to 192.168.2.100 timed out. (connect timeout=5)'))
+2026-04-25 10:23:30 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-25 10:23:32 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-25 10:23:33 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-25 10:23:35 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-25 10:23:36 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-25 10:23:37 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-25 10:23:39 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-25 10:23:40 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-25 10:23:41 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-25 10:23:43 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-25 10:26:19 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-25 10:26:20 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-25 10:26:21 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-25 10:26:23 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-25 10:26:24 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-25 10:26:26 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-25 10:26:27 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-25 10:26:28 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-25 10:26:30 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-25 10:26:31 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-25 10:33:59 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-25 10:34:00 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-25 10:34:02 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-25 10:34:03 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-25 10:34:04 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-25 10:34:06 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-25 10:34:07 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-25 10:34:09 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-25 10:34:10 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-25 10:34:11 | brute_force | attempt=10 | user=test | pw=guest | status=401
+2026-04-25 10:36:41 | brute_force | attempt=1 | user=test | pw=1111 | status=401
+2026-04-25 10:36:42 | brute_force | attempt=2 | user=test | pw=1234 | status=401
+2026-04-25 10:36:43 | brute_force | attempt=3 | user=test | pw=admin | status=401
+2026-04-25 10:36:45 | brute_force | attempt=4 | user=test | pw=password | status=401
+2026-04-25 10:36:46 | brute_force | attempt=5 | user=test | pw=qwer | status=401
+2026-04-25 10:36:47 | brute_force | attempt=6 | user=test | pw=asdf | status=401
+2026-04-25 10:36:49 | brute_force | attempt=7 | user=test | pw=zxcv | status=401
+2026-04-25 10:36:50 | brute_force | attempt=8 | user=test | pw=0000 | status=401
+2026-04-25 10:36:52 | brute_force | attempt=9 | user=test | pw=9999 | status=401
+2026-04-25 10:36:53 | brute_force | attempt=10 | user=test | pw=guest | status=401
