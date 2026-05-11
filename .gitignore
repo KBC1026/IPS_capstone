@@ -1,4 +1,6 @@
 venv/
+.venv-packages/
 __pycache__/
 *.pyc
 .env
+*.log

