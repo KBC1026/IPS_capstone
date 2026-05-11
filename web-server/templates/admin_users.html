@@ -124,6 +124,7 @@
                         <td>{{ user.locked_until if user.locked_until else '-' }}</td>
                         <td>
                             <form method="post" action="{{ url_for('unlock_user', user_id=user.id) }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                 <button type="submit" class="unlock-btn">잠금 해제</button>
                             </form>
                         </td>

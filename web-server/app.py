@@ -1,20 +1,36 @@
 
-from datetime import datetime, timedelta
+from datetime import datetime
+import os
+import secrets
 import time
 import re
 
-from flask import Flask, request, session, redirect, url_for, render_template, jsonify
+from flask import Flask, abort, request, session, redirect, url_for, render_template, jsonify
 import mysql.connector
 from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "CHANGE_THIS_TO_A_REAL_SECRET_KEY"
+
+
+def required_env(name):
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(f"{name} environment variable is required")
+    return value
+
+
+app.secret_key = required_env("FLASK_SECRET_KEY")
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE=os.environ.get("SESSION_COOKIE_SAMESITE", "Lax"),
+    SESSION_COOKIE_SECURE=os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true",
+)
 
 DB_CONFIG = {
-    "host": "192.168.2.200",
-    "user": "webuser",
-    "password": "1234",
-    "database": "login_db",
+    "host": os.environ.get("DB_HOST", "192.168.2.200"),
+    "user": os.environ.get("DB_USER", "webuser"),
+    "password": required_env("DB_PASSWORD"),
+    "database": os.environ.get("DB_NAME", "login_db"),
     "autocommit": True
 }
 
@@ -22,17 +38,44 @@ MAX_FAILED_COUNT = 10
 LOCK_MINUTES = 15
 IP_WINDOW_MINUTES = 10
 IP_MAX_FAILS = 20
+TRUSTED_PROXY_IPS = {
+    ip.strip()
+    for ip in os.environ.get("TRUSTED_PROXY_IPS", "192.168.2.1,127.0.0.1,::1").split(",")
+    if ip.strip()
+}
 
 
 def get_db():
     return mysql.connector.connect(**DB_CONFIG)
 
 
+def limit_text(value, max_length):
+    if value is None:
+        return None
+    return str(value)[:max_length]
+
+
 def get_client_ip():
-    xff = request.headers.get("X-Forwarded-For")
-    if xff:
+    remote_addr = request.remote_addr or "unknown"
+    xff = request.headers.get("X-Forwarded-For", "")
+    if remote_addr in TRUSTED_PROXY_IPS and xff:
         return xff.split(",")[0].strip()
-    return request.remote_addr or "unknown"
+    return remote_addr
+
+
+def get_csrf_token():
+    token = session.get("csrf_token")
+    if not token:
+        token = secrets.token_urlsafe(32)
+        session["csrf_token"] = token
+    return token
+
+
+def validate_csrf_token():
+    expected = session.get("csrf_token")
+    supplied = request.form.get("csrf_token", "")
+    if not expected or not secrets.compare_digest(expected, supplied):
+        abort(400)
 
 
 def detect_sqli(input_text):
@@ -60,6 +103,10 @@ def detect_sqli(input_text):
 
 
 def log_login_attempt(username, success, client_ip, reason=""):
+    username = limit_text(username, 50)
+    client_ip = limit_text(client_ip, 45)
+    reason = limit_text(reason, 64)
+
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
@@ -130,31 +177,23 @@ def register_user_fail(user_id):
     cur = conn.cursor(dictionary=True)
 
     cur.execute(
+        """
+        UPDATE users
+        SET failed_count = failed_count + 1,
+            locked_until = CASE
+                WHEN failed_count + 1 >= %s THEN DATE_ADD(NOW(), INTERVAL %s MINUTE)
+                ELSE locked_until
+            END
+        WHERE id = %s
+        """,
+        (MAX_FAILED_COUNT, LOCK_MINUTES, user_id)
+    )
+    cur.execute(
         "SELECT failed_count FROM users WHERE id = %s",
         (user_id,)
     )
     row = cur.fetchone()
-    failed_count = (row["failed_count"] if row else 0) + 1
-
-    if failed_count >= MAX_FAILED_COUNT:
-        cur.execute(
-            """
-            UPDATE users
-            SET failed_count = %s,
-                locked_until = %s
-            WHERE id = %s
-            """,
-            (failed_count, datetime.now() + timedelta(minutes=LOCK_MINUTES), user_id)
-        )
-    else:
-        cur.execute(
-            """
-            UPDATE users
-            SET failed_count = %s
-            WHERE id = %s
-            """,
-            (failed_count, user_id)
-        )
+    failed_count = row["failed_count"] if row else 0
 
     cur.close()
     conn.close()
@@ -178,8 +217,8 @@ def index():
 def login():
 
     if request.method == "POST":
-    	username = request.form.get("username", "").strip()
-    	password = request.form.get("password", "").strip()
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
 
 
     client_ip = get_client_ip()
@@ -218,6 +257,7 @@ def login():
         log_login_attempt(username, True, client_ip, reason="login_success")
 
         session.clear()
+        get_csrf_token()
         session["user_id"] = user["id"]
         session["username"] = user["username"]
         session["role"] = user["role"]
@@ -398,7 +438,8 @@ def admin_users():
     return render_template(
         "admin_users.html",
         users=users,
-        username=session.get("username")
+        username=session.get("username"),
+        csrf_token=get_csrf_token()
     )
 
 
@@ -411,6 +452,7 @@ def unlock_user(user_id):
         log_login_attempt(session.get("username", "unknown"), False, get_client_ip(), reason="forbidden_unlock_access")
         return jsonify({"message": "접근 권한이 없습니다."}), 403
 
+    validate_csrf_token()
     reset_user_fail_state(user_id)
     return redirect(url_for("admin_users"))
 

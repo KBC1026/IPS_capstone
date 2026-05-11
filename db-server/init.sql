@@ -1,3 +1,5 @@
+USE login_db;
+
 INSERT INTO users (username, password_hash, role, failed_count, locked_until)
 VALUES (
   'admin',
@@ -5,4 +7,6 @@ VALUES (
   'admin',
   0,
   NULL
-);
+)
+ON DUPLICATE KEY UPDATE
+  role = VALUES(role);
