@@ -13,6 +13,27 @@ from flask import Flask, abort, request, session, redirect, url_for, render_temp
 import mysql.connector
 from werkzeug.security import check_password_hash
 
+
+def load_env_file():
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
+    if not os.path.exists(env_path):
+        return
+
+    with open(env_path, encoding="utf-8") as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+load_env_file()
+
 app = Flask(__name__)
 
 
