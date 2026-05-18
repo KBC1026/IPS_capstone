@@ -40,7 +40,10 @@ try:
             except requests.RequestException:
                 status = "Blocked/Timeout"
 
-            log_line = f"{now} | brute_force | attempt={attempt} | user={data['username']} | pw={data['password']} | status={status}"
+            log_line = (
+                f"{now} | brute_force | attempt={attempt} | "
+                f"user={data['username']} | pw_length={len(data['password'])} | status={status}"
+            )
             
             # 진행 상황 실시간 모니터링 (100번마다 출력)
             if attempt % 100 == 0:
