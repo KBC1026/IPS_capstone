@@ -20,10 +20,6 @@ COMMIT
 -A FORWARD -j ts-forward
 -A FORWARD -i ens19 -o ens18 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -i ens18 -o ens19 -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i ens18 -o ens19 -j ACCEPT
--A FORWARD -i ens19 -o ens18 -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i ens18 -o ens19 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i ens18 -o ens19 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
 -A ts-forward -i tailscale0 -j MARK --set-xmark 0x40000/0xff0000
 -A ts-forward -m mark --mark 0x40000/0xff0000 -j ACCEPT
 -A ts-forward -s 100.64.0.0/10 -o tailscale0 -j DROP
@@ -43,7 +39,6 @@ COMMIT
 :POSTROUTING ACCEPT [1560:98703]
 :ts-postrouting - [0:0]
 -A POSTROUTING -j ts-postrouting
--A POSTROUTING -o ens18 -j MASQUERADE
 -A POSTROUTING -o ens18 -j MASQUERADE
 -A ts-postrouting -m mark --mark 0x40000/0xff0000 -j MASQUERADE
 COMMIT
