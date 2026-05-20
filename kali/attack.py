@@ -13,7 +13,7 @@ except ImportError:
 if load_dotenv:
     load_dotenv()
 
-base_url = os.environ.get("TARGET_BASE_URL", "http://192.168.2.100:5000")
+base_url = os.environ.get("TARGET_BASE_URL", "http://117.16.174.60:5000")
 login_url = os.environ.get("TARGET_LOGIN_URL", urljoin(base_url.rstrip("/") + "/", "login"))
 csrf_url = os.environ.get("TARGET_CSRF_URL", urljoin(base_url.rstrip("/") + "/", "csrf-token"))
 log_file = os.environ.get("ATTACK_LOG_FILE", "attack.log")

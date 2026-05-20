@@ -15,21 +15,27 @@ from werkzeug.security import check_password_hash
 
 
 def load_env_file():
-    env_path = os.path.join(os.path.dirname(__file__), ".env")
-    if not os.path.exists(env_path):
-        return
+    app_dir = os.path.dirname(__file__)
+    env_paths = [
+        os.path.join(os.path.dirname(app_dir), ".env"),
+        os.path.join(app_dir, ".env"),
+    ]
 
-    with open(env_path, encoding="utf-8") as env_file:
-        for raw_line in env_file:
-            line = raw_line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
+    for env_path in env_paths:
+        if not os.path.exists(env_path):
+            continue
 
-            key, value = line.split("=", 1)
-            key = key.strip()
-            value = value.strip().strip('"').strip("'")
-            if key and key not in os.environ:
-                os.environ[key] = value
+        with open(env_path, encoding="utf-8") as env_file:
+            for raw_line in env_file:
+                line = raw_line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+                if key and key not in os.environ:
+                    os.environ[key] = value
 
 
 load_env_file()
@@ -54,10 +60,10 @@ app.config.update(
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 
 DB_CONFIG = {
-    "host": os.environ.get("DB_HOST", "192.168.2.200"),
-    "user": os.environ.get("DB_USER", "webuser"),
+    "host": required_env("DB_HOST"),
+    "user": required_env("DB_USER"),
     "password": required_env("DB_PASSWORD"),
-    "database": os.environ.get("DB_NAME", "login_db"),
+    "database": required_env("DB_NAME"),
     "autocommit": True
 }
 
@@ -68,9 +74,11 @@ IP_MAX_FAILS = 20
 TRUST_PROXY_HEADERS = os.environ.get("TRUST_PROXY_HEADERS", "false").lower() == "true"
 TRUSTED_PROXY_IPS = {
     ip.strip()
-    for ip in os.environ.get("TRUSTED_PROXY_IPS", "192.168.2.1,127.0.0.1,::1").split(",")
+    for ip in os.environ.get("TRUSTED_PROXY_IPS", "127.0.0.1,::1").split(",")
     if ip.strip()
 }
+FLASK_HOST = os.environ.get("FLASK_HOST", "0.0.0.0")
+FLASK_PORT = int(os.environ.get("FLASK_PORT", "5000"))
 
 
 def get_db():
@@ -630,4 +638,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host=FLASK_HOST, port=FLASK_PORT, debug=False)

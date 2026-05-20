@@ -1,10 +1,11 @@
 import socket
 import datetime
+import os
 import time
 import random
 
 # 1. 환경 설정
-target_ip = "192.168.2.100"
+target_ip = os.environ.get("TARGET_WEB_IP", "117.16.174.60")
 log_file = "port_scan_bypassed.log"
 
 # 2. 목표 수치: 1,000개 포트 스캔

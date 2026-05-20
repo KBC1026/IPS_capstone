@@ -1,9 +1,10 @@
 import requests
 import datetime
+import os
 import time
 import random
 
-url = "http://192.168.2.100:5000/login"
+url = os.environ.get("TARGET_LOGIN_URL", "http://117.16.174.60:5000/login")
 log_file = "brute_force_blocked.log"
 REPEAT_COUNT = 200 # 총 2,000개 데이터
 

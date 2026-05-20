@@ -1,10 +1,11 @@
 import requests
 import datetime
+import os
 import time
 import random
 
 # 1. 환경 설정
-url = "http://192.168.2.100:5000/"
+url = os.environ.get("TARGET_LOGIN_URL", "http://117.16.174.60:5000/login")
 log_file = "sql_injection_bypassed.log"
 
 # 2. 목표 수치: 2,000개 (10개 페이로드 * 200세트)
