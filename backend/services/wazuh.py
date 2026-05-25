@@ -51,15 +51,38 @@ DEMO_EVENTS = [
     },
 ]
 
+LAB_SIGNATURES = (
+    "LAB Port scan detected",
+    "LAB WEB brute force detected",
+    "LAB SQL Injection detected",
+)
+
+NOISE_SIGNATURE_FRAGMENTS = (
+    "ET INFO STUN",
+    "SSDP",
+    "LAB ICMP Ping Detected",
+    "network_info",
+)
+
 
 class WazuhClient:
-    def __init__(self, api_url: str, user: str, password: str, verify_ssl: bool, indexer: dict, demo_fallback: bool):
+    def __init__(
+        self,
+        api_url: str,
+        user: str,
+        password: str,
+        verify_ssl: bool,
+        indexer: dict,
+        demo_fallback: bool,
+        default_lab_only: bool,
+    ):
         self.api_url = api_url.rstrip("/") + "/"
         self.user = user
         self.password = password
         self.verify_ssl = verify_ssl
         self.indexer = indexer
         self.demo_fallback = demo_fallback
+        self.default_lab_only = default_lab_only
         self._token: str | None = None
 
     @classmethod
@@ -80,6 +103,7 @@ class WazuhClient:
                 "time_range": os.getenv("WAZUH_ALERT_TIME_RANGE", "now-24h"),
             },
             demo_fallback=_bool_env("WAZUH_DEMO_FALLBACK", False),
+            default_lab_only=_bool_env("WAZUH_DEFAULT_LAB_ONLY", True),
         )
 
     def health(self) -> dict:
@@ -92,6 +116,7 @@ class WazuhClient:
                 "agents_seen": agents.get("data", {}).get("total_affected_items", 0),
                 "indexer": indexer_status,
                 "demo_fallback": self.demo_fallback,
+                "default_lab_only": self.default_lab_only,
             }
         except Exception as exc:
             return {
@@ -100,21 +125,29 @@ class WazuhClient:
                 "error": str(exc),
                 "indexer": indexer_status,
                 "demo_fallback": self.demo_fallback,
+                "default_lab_only": self.default_lab_only,
             }
 
-    def recent_events(self, limit: int = 50, attack_type: str | None = None) -> list[dict]:
+    def recent_events(self, limit: int = 50, attack_type: str | None = None, lab_only: bool | None = None) -> list[dict]:
+        if lab_only is None:
+            lab_only = self.default_lab_only
         try:
-            events = self._indexer_events(limit)
+            events = self._indexer_events(limit * 5 if lab_only else limit)
         except Exception as exc:
             logger.warning("Wazuh indexer event search failed: %s", exc)
             events = DEMO_EVENTS if self.demo_fallback else []
+
+        if lab_only:
+            events = [event for event in events if _is_lab_event(event)]
+        else:
+            events = [event for event in events if not _is_noise_event(event)]
 
         if attack_type:
             events = [event for event in events if event.get("attack_type") == attack_type]
         return events[:limit]
 
-    def summary(self) -> dict:
-        events = self.recent_events(limit=200)
+    def summary(self, lab_only: bool | None = None) -> dict:
+        events = self.recent_events(limit=200, lab_only=lab_only)
         counts = Counter(event.get("attack_type", "Unknown") for event in events)
         blocked = {event.get("src_ip") for event in events if event.get("action") == "BLOCKED" and event.get("src_ip")}
         return {
@@ -126,9 +159,9 @@ class WazuhClient:
             "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
-    def timeline(self) -> list[dict]:
+    def timeline(self, lab_only: bool | None = None) -> list[dict]:
         buckets: dict[str, Counter] = {}
-        for event in self.recent_events(limit=200):
+        for event in self.recent_events(limit=200, lab_only=lab_only):
             label = str(event.get("timestamp", ""))[11:16] if "T" in str(event.get("timestamp", "")) else str(event.get("timestamp", ""))[:5]
             label = label or "now"
             bucket = buckets.setdefault(label, Counter())
@@ -141,9 +174,9 @@ class WazuhClient:
                 bucket["sqli"] += 1
         return [{"time": key, **value} for key, value in sorted(buckets.items())][-12:]
 
-    def blocked_ips(self) -> list[dict]:
+    def blocked_ips(self, lab_only: bool | None = None) -> list[dict]:
         counter = Counter()
-        for event in self.recent_events(limit=200):
+        for event in self.recent_events(limit=200, lab_only=lab_only):
             if event.get("action") == "BLOCKED" and event.get("src_ip"):
                 counter[event["src_ip"]] += 1
         return [{"ip": ip, "events": count} for ip, count in counter.most_common(20)]
@@ -244,6 +277,20 @@ def _normalize_event(hit: dict) -> dict:
         "location": source.get("location", "-"),
         "rule_groups": rule.get("groups", []),
     }
+
+
+def _is_lab_event(event: dict) -> bool:
+    signature = str(event.get("signature", ""))
+    signature_id = str(event.get("signature_id", ""))
+    return any(expected in signature for expected in LAB_SIGNATURES) and signature_id != "1000001"
+
+
+def _is_noise_event(event: dict) -> bool:
+    signature = str(event.get("signature", ""))
+    decoder = str(event.get("decoder", ""))
+    signature_id = str(event.get("signature_id", ""))
+    text = f"{signature} {decoder}"
+    return signature_id == "1000001" or any(fragment in text for fragment in NOISE_SIGNATURE_FRAGMENTS)
 
 
 def _attack_type(signature: str, groups: list | str | None = None) -> str:

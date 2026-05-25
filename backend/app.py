@@ -43,19 +43,23 @@ def create_app() -> Flask:
     def security_events():
         limit = _int_arg("limit", 50, minimum=1, maximum=200)
         attack_type = request.args.get("attack_type")
-        return jsonify({"events": wazuh.recent_events(limit=limit, attack_type=attack_type)})
+        lab_only = _bool_arg("lab_only", wazuh.default_lab_only)
+        return jsonify({"events": wazuh.recent_events(limit=limit, attack_type=attack_type, lab_only=lab_only)})
 
     @app.get("/api/security/summary")
     def security_summary():
-        return jsonify(wazuh.summary())
+        lab_only = _bool_arg("lab_only", wazuh.default_lab_only)
+        return jsonify(wazuh.summary(lab_only=lab_only))
 
     @app.get("/api/security/timeline")
     def security_timeline():
-        return jsonify({"timeline": wazuh.timeline()})
+        lab_only = _bool_arg("lab_only", wazuh.default_lab_only)
+        return jsonify({"timeline": wazuh.timeline(lab_only=lab_only)})
 
     @app.get("/api/security/blocked-ips")
     def blocked_ips():
-        return jsonify({"blocked_ips": wazuh.blocked_ips()})
+        lab_only = _bool_arg("lab_only", wazuh.default_lab_only)
+        return jsonify({"blocked_ips": wazuh.blocked_ips(lab_only=lab_only)})
 
     @app.post("/api/simulation/<scenario>")
     def run_simulation(scenario: str):
@@ -106,6 +110,13 @@ def _int_arg(name: str, default: int, minimum: int, maximum: int) -> int:
     except (TypeError, ValueError):
         return default
     return max(minimum, min(maximum, value))
+
+
+def _bool_arg(name: str, default: bool) -> bool:
+    value = request.args.get(name)
+    if value is None:
+        return default
+    return value.lower() in {"1", "true", "yes", "on"}
 
 
 if __name__ == "__main__":

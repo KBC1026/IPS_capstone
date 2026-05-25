@@ -120,8 +120,11 @@ function App() {
   const [events, setEvents] = useState(mockEvents);
   const [timelineData, setTimelineData] = useState(timeline);
   const [apiStatus, setApiStatus] = useState('Connecting API');
+  const [wazuhHealth, setWazuhHealth] = useState(null);
+  const [summaryData, setSummaryData] = useState(null);
+  const [labOnly, setLabOnly] = useState(true);
 
-  const summary = useMemo(() => {
+  const calculatedSummary = useMemo(() => {
     const count = (name) => events.filter((event) => event.attack_type === name).length;
     return {
       total: events.length,
@@ -132,6 +135,8 @@ function App() {
     };
   }, [events]);
 
+  const summary = summaryData || calculatedSummary;
+
   const attackTypeData = useMemo(() => [
     { name: 'Port Scan', value: summary.portscan, color: '#26d9ff' },
     { name: 'Brute Force', value: summary.bruteforce, color: '#ff4d63' },
@@ -140,20 +145,26 @@ function App() {
 
   const refreshSecurityData = async () => {
     try {
-      const [healthPayload, eventPayload, timelinePayload] = await Promise.all([
+      const [healthPayload, eventPayload, timelinePayload, summaryPayload] = await Promise.all([
         api.health(),
-        api.events(50),
-        api.timeline()
+        api.events(50, { labOnly }),
+        api.timeline({ labOnly }),
+        api.summary({ labOnly })
       ]);
-      setApiStatus(healthPayload.wazuh?.ok ? 'Wazuh API Online' : healthPayload.wazuh?.indexer?.ok ? 'Wazuh Indexer Online' : 'API Online / Wazuh Offline');
+      const health = healthPayload.wazuh || {};
+      setWazuhHealth(health);
+      setApiStatus(health.source === 'wazuh-api' ? 'Wazuh API Online' : health.indexer?.ok ? 'Wazuh Indexer Online' : 'API Online / Wazuh Offline');
       if (Array.isArray(eventPayload.events)) {
         setEvents(eventPayload.events);
       }
       if (Array.isArray(timelinePayload.timeline) && timelinePayload.timeline.length > 0) {
         setTimelineData(timelinePayload.timeline);
       }
+      setSummaryData(summaryPayload);
     } catch (error) {
-      setApiStatus('Demo Fallback Mode');
+      setApiStatus('Backend Offline');
+      setWazuhHealth(null);
+      setSummaryData(null);
     }
   };
 
@@ -161,40 +172,19 @@ function App() {
     refreshSecurityData();
     const timer = window.setInterval(refreshSecurityData, 5000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [labOnly]);
 
   const runScenario = async (scenarioId) => {
-    const scenarioLabel = {
-      portscan: 'Port Scan',
-      bruteforce: 'Brute Force',
-      sqli: 'SQL Injection',
-      random: 'Port Scan'
-    }[scenarioId];
-    const signature = {
-      'Port Scan': 'LAB Port scan detected',
-      'Brute Force': 'LAB WEB brute force detected',
-      'SQL Injection': 'LAB SQL Injection detected'
-    }[scenarioLabel];
-
     setActiveScenario(scenarioId);
     window.setTimeout(() => setActiveScenario(null), 1800);
-    api.runSimulation(scenarioId)
-      .then(() => window.setTimeout(refreshSecurityData, 1200))
-      .catch((error) => setChatMessages((current) => [...current, { role: 'bot', text: error.message }]));
-    setEvents((current) => [
-      {
-        id: `evt-${Date.now()}`,
-        timestamp: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
-        attack_type: scenarioLabel,
-        src_ip: '192.168.2.10',
-        dest_ip: '192.168.2.100',
-        dest_port: scenarioLabel === 'SQL Injection' ? '80' : scenarioLabel === 'Brute Force' ? '22' : '22-8080',
-        signature_id: scenarioLabel === 'SQL Injection' ? '100003' : scenarioLabel === 'Brute Force' ? '100002' : '100001',
-        signature,
-        action: scenarioLabel === 'SQL Injection' ? 'ALERT' : 'BLOCKED'
-      },
-      ...current
-    ].slice(0, 8));
+
+    try {
+      const result = await api.runSimulation(scenarioId);
+      setChatMessages((current) => [...current, { role: 'bot', text: result.message }]);
+      window.setTimeout(refreshSecurityData, 1200);
+    } catch (error) {
+      setChatMessages((current) => [...current, { role: 'bot', text: error.message }]);
+    }
   };
 
   const handleChat = async (event) => {
@@ -260,7 +250,8 @@ function App() {
       <Header apiStatus={apiStatus} onLogout={() => setIsLoggedIn(false)} />
       <main className="mx-auto grid w-full max-w-[1540px] gap-4 px-4 pb-8 pt-4 lg:px-6">
         <Hero />
-        <KpiGrid summary={summary} />
+        <KpiGrid summary={summary} labOnly={labOnly} />
+        <SystemStatus apiStatus={apiStatus} health={wazuhHealth} labOnly={labOnly} onToggleLabOnly={setLabOnly} />
         <section className="grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
           <NetworkFlow activeScenario={activeScenario} />
           <SimulationPanel activeScenario={activeScenario} onRun={runScenario} />
@@ -326,7 +317,7 @@ function LoginScreen({ onLogin }) {
               Sign in to SOC Dashboard
             </button>
           </form>
-          <p className="mt-4 text-sm text-slate-400">초기 mock 단계입니다. 실제 운영에서는 백엔드 인증 API와 연결합니다.</p>
+          <p className="mt-4 text-sm text-slate-400">로그인 후 api.chanxai.com을 통해 Wazuh Indexer 이벤트를 조회합니다.</p>
         </section>
       </div>
     </div>
@@ -381,7 +372,49 @@ function StatusTile({ label, value }) {
   );
 }
 
-function KpiGrid({ summary }) {
+function SystemStatus({ apiStatus, health, labOnly, onToggleLabOnly }) {
+  const indexerStatus = health?.indexer?.status || (health?.indexer?.ok ? 'connected' : 'unknown');
+  const agentsSeen = health?.agents_seen ?? '-';
+  const demoFallback = health?.demo_fallback ? 'enabled' : 'false';
+  const statusItems = [
+    { label: 'Backend API', value: apiStatus, tone: apiStatus.includes('Offline') ? 'text-soc-red' : 'text-soc-green' },
+    { label: 'Wazuh API', value: health?.source === 'wazuh-api' ? 'online' : 'degraded', tone: health?.source === 'wazuh-api' ? 'text-soc-green' : 'text-soc-amber' },
+    { label: 'Indexer', value: indexerStatus, tone: indexerStatus === 'green' ? 'text-soc-green' : 'text-soc-amber' },
+    { label: 'Agents', value: agentsSeen, tone: 'text-soc-cyan' },
+    { label: 'Demo Fallback', value: demoFallback, tone: health?.demo_fallback ? 'text-soc-amber' : 'text-soc-green' }
+  ];
+
+  return (
+    <section className="grid gap-4 rounded-lg border border-soc-line bg-soc-panel p-5 xl:grid-cols-[1fr_auto]">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        {statusItems.map((item) => (
+          <div key={item.label} className="rounded-lg border border-soc-line bg-slate-950/50 p-4">
+            <p className="text-xs font-bold uppercase text-slate-500">{item.label}</p>
+            <p className={`mt-2 font-mono text-sm font-black ${item.tone}`}>{item.value}</p>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-2 justify-self-start xl:justify-self-end">
+        <button
+          type="button"
+          onClick={() => onToggleLabOnly(true)}
+          className={`rounded-md border px-4 py-3 text-sm font-black ${labOnly ? 'border-soc-cyan bg-cyan-400/15 text-cyan-100' : 'border-soc-line bg-slate-950/50 text-slate-300'}`}
+        >
+          LAB 이벤트
+        </button>
+        <button
+          type="button"
+          onClick={() => onToggleLabOnly(false)}
+          className={`rounded-md border px-4 py-3 text-sm font-black ${!labOnly ? 'border-soc-cyan bg-cyan-400/15 text-cyan-100' : 'border-soc-line bg-slate-950/50 text-slate-300'}`}
+        >
+          전체 보기
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function KpiGrid({ summary, labOnly }) {
   const items = [
     { label: 'Total Events', value: summary.total, icon: Activity, color: 'text-soc-blue' },
     { label: 'Port Scan', value: summary.portscan, icon: ScanLine, color: 'text-soc-cyan' },
@@ -400,7 +433,7 @@ function KpiGrid({ summary }) {
               <Icon className={`h-5 w-5 ${item.color}`} />
             </div>
             <strong className="mt-4 block text-4xl font-black text-white">{item.value}</strong>
-            <span className="mt-2 block text-sm text-slate-500">LAB 룰 중심 mock telemetry</span>
+            <span className="mt-2 block text-sm text-slate-500">{labOnly ? 'LAB 이벤트 중심' : '잡로그 제외 전체'} Wazuh telemetry</span>
           </article>
         );
       })}
@@ -452,7 +485,7 @@ function SimulationPanel({ activeScenario, onRun }) {
       <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-green-200">
         <span className="rounded-full border border-green-400/30 bg-green-400/10 px-3 py-1">allowlist only</span>
         <span className="rounded-full border border-green-400/30 bg-green-400/10 px-3 py-1">fixed target IP</span>
-        <span className="rounded-full border border-green-400/30 bg-green-400/10 px-3 py-1">mock mode</span>
+        <span className="rounded-full border border-green-400/30 bg-green-400/10 px-3 py-1">api-triggered</span>
       </div>
     </section>
   );
@@ -470,6 +503,11 @@ function EventsPanel({ events }) {
             </tr>
           </thead>
           <tbody>
+            {events.length === 0 && (
+              <tr className="border-t border-soc-line text-slate-400">
+                <td className="px-3 py-6 text-center" colSpan={9}>표시할 이벤트가 없습니다.</td>
+              </tr>
+            )}
             {events.map((event) => (
               <tr key={event.id} className="border-t border-soc-line text-slate-200">
                 <td className="px-3 py-3">{event.timestamp}</td>
@@ -580,7 +618,9 @@ function TypePill({ type }) {
     ? 'bg-cyan-400 text-slate-950'
     : type === 'Brute Force'
       ? 'bg-rose-400 text-slate-950'
-      : 'bg-purple-400 text-slate-950';
+      : type === 'SQL Injection'
+        ? 'bg-purple-400 text-slate-950'
+        : 'bg-slate-700 text-slate-100';
   return <span className={`rounded-full px-2 py-1 text-xs font-black ${className}`}>{type}</span>;
 }
 
