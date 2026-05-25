@@ -7,7 +7,7 @@ import time
 # ==========================================
 # 1. 설정값 (환경에 맞춰 수정하세요)
 # ==========================================
-TARGET_URL = os.environ.get("TARGET_LOGIN_URL", "http://117.16.174.60:5000/login")
+TARGET_URL = os.environ.get("TARGET_LOGIN_URL", "http://192.168.2.100:5000/login")
 TOTAL_ATTACKS = 2000  # 총 시도 횟수
 ATTACK_LOG = "sql_injection_blocked.log"
 

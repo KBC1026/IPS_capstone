@@ -6,7 +6,7 @@ from datetime import datetime
 # ==========================================
 # 1. 설정값
 # ==========================================
-TARGET_IP = os.environ.get("TARGET_WEB_IP", "117.16.174.60")
+TARGET_IP = os.environ.get("TARGET_WEB_IP", "192.168.2.100")
 TOTAL_PORTS = 1000  # 목표 데이터 개수에 맞춰 1000개로 수정
 LOG_FILE = "port_scan_blocked.log"
 
