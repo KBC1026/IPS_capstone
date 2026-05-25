@@ -4,7 +4,7 @@ import logging
 import os
 import re
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -12,6 +12,7 @@ from requests.auth import HTTPBasicAuth
 
 
 logger = logging.getLogger(__name__)
+KST = timezone(timedelta(hours=9), "KST")
 
 DEMO_EVENTS = [
     {
@@ -173,11 +174,25 @@ class WazuhClient:
         }
 
     def timeline(self, lab_only: bool | None = None) -> list[dict]:
-        buckets: dict[str, Counter] = {}
-        for event in self.recent_events(limit=200, lab_only=lab_only):
-            label = str(event.get("timestamp", ""))[11:16] if "T" in str(event.get("timestamp", "")) else str(event.get("timestamp", ""))[:5]
-            label = label or "now"
-            bucket = buckets.setdefault(label, Counter())
+        now = datetime.now(KST)
+        end_hour = now.replace(minute=0, second=0, microsecond=0)
+        start_hour = end_hour - timedelta(hours=12)
+        bucket_times = [start_hour + timedelta(hours=offset) for offset in range(13)]
+        buckets = {hour.strftime("%H:00"): Counter() for hour in bucket_times}
+
+        for event in self.recent_events(limit=50000, lab_only=lab_only):
+            event_time = _parse_event_time(event.get("timestamp"))
+            if not event_time:
+                continue
+            event_kst = event_time.astimezone(KST)
+            if event_kst < start_hour or event_kst > now:
+                continue
+
+            label = event_kst.replace(minute=0, second=0, microsecond=0).strftime("%H:00")
+            bucket = buckets.get(label)
+            if bucket is None:
+                continue
+
             attack_type = event.get("attack_type")
             if attack_type == "Port Scan":
                 bucket["portscan"] += 1
@@ -185,7 +200,16 @@ class WazuhClient:
                 bucket["bruteforce"] += 1
             elif attack_type == "SQL Injection":
                 bucket["sqli"] += 1
-        return [{"time": key, **value} for key, value in sorted(buckets.items())][-12:]
+
+        return [
+            {
+                "time": hour.strftime("%H:00"),
+                "portscan": buckets[hour.strftime("%H:00")]["portscan"],
+                "bruteforce": buckets[hour.strftime("%H:00")]["bruteforce"],
+                "sqli": buckets[hour.strftime("%H:00")]["sqli"],
+            }
+            for hour in bucket_times
+        ]
 
     def blocked_ips(self, lab_only: bool | None = None) -> list[dict]:
         counter = Counter()
@@ -313,6 +337,24 @@ def _normalize_event(hit: dict) -> dict:
         "location": source.get("location", "-"),
         "rule_groups": rule.get("groups", []),
     }
+
+
+def _parse_event_time(value) -> datetime | None:
+    if not value:
+        return None
+
+    raw = str(value).strip()
+    try:
+        if "T" in raw:
+            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed
+
+        parsed_time = datetime.strptime(raw[:8], "%H:%M:%S").time()
+        return datetime.combine(datetime.now(KST).date(), parsed_time, tzinfo=KST)
+    except ValueError:
+        return None
 
 
 def _is_lab_event(event: dict) -> bool:
