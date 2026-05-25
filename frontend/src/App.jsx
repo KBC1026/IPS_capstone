@@ -435,7 +435,7 @@ function KpiGrid({ summary, labOnly }) {
               <Icon className={`h-5 w-5 ${item.color}`} />
             </div>
             <strong className="mt-4 block text-4xl font-black text-white">{item.value}</strong>
-            <span className="mt-2 block text-sm text-slate-500">{labOnly ? 'LAB 이벤트 중심' : '잡로그 제외 전체'} Wazuh telemetry</span>
+            <span className="mt-2 block text-sm text-slate-500">{labOnly ? 'LAB 이벤트 중심' : '잡로그 포함 전체'} Wazuh telemetry</span>
           </article>
         );
       })}
