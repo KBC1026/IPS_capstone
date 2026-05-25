@@ -154,8 +154,6 @@ class WazuhClient:
 
         if lab_only:
             events = [event for event in events if _is_lab_event(event)]
-        else:
-            events = [event for event in events if not _is_noise_event(event)]
 
         if attack_type:
             events = [event for event in events if event.get("attack_type") == attack_type]
