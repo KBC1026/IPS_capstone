@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 from collections import Counter
 from datetime import datetime, timezone
 from urllib.parse import urljoin
@@ -145,7 +146,7 @@ class WazuhClient:
         if lab_only is None:
             lab_only = self.default_lab_only
         try:
-            events = self._indexer_events(limit * 5 if lab_only else limit)
+            events = self._indexer_events(min(max(limit * 20, limit), 1000))
         except Exception as exc:
             logger.warning("Wazuh indexer event search failed: %s", exc)
             events = DEMO_EVENTS if self.demo_fallback else []
@@ -272,8 +273,14 @@ def _normalize_event(hit: dict) -> dict:
     rule = source.get("rule", {})
     decoder = source.get("decoder", {})
     agent = source.get("agent", {})
-    signature = alert.get("signature") or rule.get("description") or source.get("full_log") or "Unknown alert"
-    signature_id = str(alert.get("signature_id") or rule.get("id", "-"))
+    full_log = str(source.get("full_log") or "")
+    signature = alert.get("signature") or _suricata_signature(full_log) or rule.get("description") or full_log or "Unknown alert"
+    signature_id = str(
+        alert.get("signature_id")
+        or _suricata_signature_id(data.get("id"))
+        or _suricata_signature_id(full_log)
+        or rule.get("id", "-")
+    )
     attack_type = _attack_type(signature, rule.get("groups", []), signature_id)
     return {
         "id": hit.get("_id"),
@@ -309,6 +316,16 @@ def _is_noise_event(event: dict) -> bool:
     group_text = " ".join(groups) if isinstance(groups, list) else str(groups or "")
     text = f"{signature} {decoder} {group_text}"
     return signature_id in NOISE_SIGNATURE_IDS or any(fragment in text for fragment in NOISE_SIGNATURE_FRAGMENTS)
+
+
+def _suricata_signature_id(value: object) -> str | None:
+    match = re.search(r"\b\d+:(\d+):\d+\b", str(value or ""))
+    return match.group(1) if match else None
+
+
+def _suricata_signature(full_log: str) -> str | None:
+    match = re.search(r"\[\*\*\]\s+\[\d+:\d+:\d+\]\s+(.+?)\s+\[\*\*\]", full_log)
+    return match.group(1) if match else None
 
 
 def _attack_type(signature: str, groups: list | str | None = None, signature_id: str | None = None) -> str:
