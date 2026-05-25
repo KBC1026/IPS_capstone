@@ -145,7 +145,7 @@ class WazuhClient:
     def recent_events(self, limit: int = 50, attack_type: str | None = None, lab_only: bool | None = None) -> list[dict]:
         if lab_only is None:
             lab_only = self.default_lab_only
-        search_limit = 1000 if lab_only else limit
+        search_limit = max(limit, 1000) if lab_only else limit
         try:
             events = self._indexer_events(search_limit)
         except Exception as exc:
@@ -160,7 +160,7 @@ class WazuhClient:
         return events[:limit]
 
     def summary(self, lab_only: bool | None = None) -> dict:
-        events = self.recent_events(limit=200, lab_only=lab_only)
+        events = self.recent_events(limit=50000, lab_only=lab_only)
         counts = Counter(event.get("attack_type", "Unknown") for event in events)
         blocked = {event.get("src_ip") for event in events if event.get("action") == "BLOCKED" and event.get("src_ip")}
         return {
@@ -223,30 +223,46 @@ class WazuhClient:
         if not self.indexer["url"]:
             raise RuntimeError("WAZUH_INDEXER_URL is not configured")
 
-        query = {
-            "size": limit,
-            "sort": [{"@timestamp": {"order": "desc"}}],
-            "track_total_hits": False,
-            "query": {
-                "bool": {
-                    "filter": [
-                        {"exists": {"field": "rule.id"}},
-                        {"range": {"@timestamp": {"gte": self.indexer["time_range"]}}},
-                    ]
-                }
-            },
-        }
         url = f"{self.indexer['url']}/{self.indexer['index']}/_search"
-        response = requests.post(
-            url,
-            json=query,
-            auth=HTTPBasicAuth(self.indexer["user"], self.indexer["password"]),
-            timeout=10,
-            verify=self.indexer["verify_ssl"],
-        )
-        response.raise_for_status()
-        hits = response.json().get("hits", {}).get("hits", [])
-        return [_normalize_event(hit) for hit in hits]
+        events: list[dict] = []
+        search_after = None
+        batch_size = min(1000, max(1, limit))
+
+        while len(events) < limit:
+            query = {
+                "size": min(batch_size, limit - len(events)),
+                "sort": [{"@timestamp": {"order": "desc"}}],
+                "track_total_hits": False,
+                "query": {
+                    "bool": {
+                        "filter": [
+                            {"exists": {"field": "rule.id"}},
+                            {"range": {"@timestamp": {"gte": self.indexer["time_range"]}}},
+                        ]
+                    }
+                },
+            }
+            if search_after:
+                query["search_after"] = search_after
+
+            response = requests.post(
+                url,
+                json=query,
+                auth=HTTPBasicAuth(self.indexer["user"], self.indexer["password"]),
+                timeout=20,
+                verify=self.indexer["verify_ssl"],
+            )
+            response.raise_for_status()
+            hits = response.json().get("hits", {}).get("hits", [])
+            if not hits:
+                break
+
+            events.extend(_normalize_event(hit) for hit in hits)
+            search_after = hits[-1].get("sort")
+            if not search_after or len(hits) < batch_size:
+                break
+
+        return events[:limit]
 
     def _indexer_health(self) -> dict:
         if not self.indexer["url"]:
