@@ -45,3 +45,44 @@
 ```bash
 mysql -u root -p < schema.sql
 sudo mysql login_db < init.sql
+
+---
+
+## CHANXAI SOC Dashboard API
+
+Production traffic must keep this path:
+
+```text
+Browser -> https://chanxai.com -> https://api.chanxai.com -> Wazuh API / Kali SSH
+```
+
+The new Flask backend lives in `backend/` and is intended to be copied to `/opt/chanxai-api` on the Wazuh VM.
+
+### Backend setup
+
+```bash
+cd /opt/chanxai-api
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# fill WAZUH_*, WAZUH_INDEXER_*, KALI_* values
+gunicorn -w 2 -b 0.0.0.0:8000 wsgi:app
+```
+
+Required public API origin:
+
+```text
+https://api.chanxai.com
+```
+
+### Frontend API URL
+
+Cloudflare Pages should build `frontend/` with:
+
+```text
+VITE_API_BASE_URL=https://api.chanxai.com
+```
+
+If the API is offline, the dashboard keeps a local demo fallback so the presentation UI still renders.
+

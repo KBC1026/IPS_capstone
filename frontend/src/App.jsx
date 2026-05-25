@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
   Bot,
@@ -30,6 +30,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
+import { api } from './api';
 
 const mockEvents = [
   {
@@ -117,6 +118,8 @@ function App() {
   ]);
   const [chatInput, setChatInput] = useState('');
   const [events, setEvents] = useState(mockEvents);
+  const [timelineData, setTimelineData] = useState(timeline);
+  const [apiStatus, setApiStatus] = useState('Connecting API');
 
   const summary = useMemo(() => {
     const count = (name) => events.filter((event) => event.attack_type === name).length;
@@ -129,7 +132,38 @@ function App() {
     };
   }, [events]);
 
-  const runScenario = (scenarioId) => {
+  const attackTypeData = useMemo(() => [
+    { name: 'Port Scan', value: summary.portscan, color: '#26d9ff' },
+    { name: 'Brute Force', value: summary.bruteforce, color: '#ff4d63' },
+    { name: 'SQL Injection', value: summary.sqli, color: '#a66cff' }
+  ], [summary]);
+
+  const refreshSecurityData = async () => {
+    try {
+      const [healthPayload, eventPayload, timelinePayload] = await Promise.all([
+        api.health(),
+        api.events(50),
+        api.timeline()
+      ]);
+      setApiStatus(healthPayload.wazuh?.ok ? 'Wazuh API Online' : healthPayload.wazuh?.indexer?.ok ? 'Wazuh Indexer Online' : 'API Online / Wazuh Offline');
+      if (Array.isArray(eventPayload.events)) {
+        setEvents(eventPayload.events);
+      }
+      if (Array.isArray(timelinePayload.timeline) && timelinePayload.timeline.length > 0) {
+        setTimelineData(timelinePayload.timeline);
+      }
+    } catch (error) {
+      setApiStatus('Demo Fallback Mode');
+    }
+  };
+
+  useEffect(() => {
+    refreshSecurityData();
+    const timer = window.setInterval(refreshSecurityData, 5000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const runScenario = async (scenarioId) => {
     const scenarioLabel = {
       portscan: 'Port Scan',
       bruteforce: 'Brute Force',
@@ -144,6 +178,9 @@ function App() {
 
     setActiveScenario(scenarioId);
     window.setTimeout(() => setActiveScenario(null), 1800);
+    api.runSimulation(scenarioId)
+      .then(() => window.setTimeout(refreshSecurityData, 1200))
+      .catch((error) => setChatMessages((current) => [...current, { role: 'bot', text: error.message }]));
     setEvents((current) => [
       {
         id: `evt-${Date.now()}`,
@@ -160,7 +197,7 @@ function App() {
     ].slice(0, 8));
   };
 
-  const handleChat = (event) => {
+  const handleChat = async (event) => {
     event.preventDefault();
     const message = chatInput.trim();
     if (!message) return;
@@ -168,6 +205,22 @@ function App() {
     const normalized = message.toLowerCase().replace(/\s+/g, '');
     setChatMessages((current) => [...current, { role: 'user', text: message }]);
     setChatInput('');
+
+    try {
+      const response = await api.chat(message);
+      if (response.intent?.action === 'simulate') {
+        setActiveScenario(response.intent.scenario);
+        window.setTimeout(() => setActiveScenario(null), 1800);
+        window.setTimeout(refreshSecurityData, 1200);
+      }
+      if (Array.isArray(response.events)) {
+        setEvents(response.events);
+      }
+      setChatMessages((current) => [...current, { role: 'bot', text: response.reply }]);
+      return;
+    } catch (error) {
+      // Fall through to local demo handling when the API is offline.
+    }
 
     if (['sudo', 'bash', 'curl', 'wget', 'python', ';', '&&', '|'].some((token) => normalized.includes(token))) {
       setChatMessages((current) => [...current, { role: 'bot', text: '임의 명령어는 실행할 수 없습니다. 사전 정의된 안전 시나리오만 선택합니다.' }]);
@@ -204,7 +257,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-soc-bg text-slate-100">
-      <Header onLogout={() => setIsLoggedIn(false)} />
+      <Header apiStatus={apiStatus} onLogout={() => setIsLoggedIn(false)} />
       <main className="mx-auto grid w-full max-w-[1540px] gap-4 px-4 pb-8 pt-4 lg:px-6">
         <Hero />
         <KpiGrid summary={summary} />
@@ -217,8 +270,8 @@ function App() {
           <ChatPanel messages={chatMessages} value={chatInput} onChange={setChatInput} onSubmit={handleChat} />
         </section>
         <section className="grid gap-4 xl:grid-cols-[1fr_0.8fr]">
-          <TimelineChart />
-          <AttackTypeChart />
+          <TimelineChart data={timelineData} />
+          <AttackTypeChart data={attackTypeData} />
         </section>
       </main>
     </div>
@@ -280,7 +333,7 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-function Header({ onLogout }) {
+function Header({ apiStatus, onLogout }) {
   return (
     <header className="sticky top-0 z-30 border-b border-soc-line bg-soc-bg/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1540px] flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
@@ -289,7 +342,7 @@ function Header({ onLogout }) {
           <h1 className="text-2xl font-black text-white">IPS + Wazuh 실시간 관제 대시보드</h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="rounded-full border border-green-400/40 bg-green-400/10 px-3 py-2 text-sm font-bold text-green-200">Mock Pipeline Online</span>
+          <span className="rounded-full border border-green-400/40 bg-green-400/10 px-3 py-2 text-sm font-bold text-green-200">{apiStatus}</span>
           <button onClick={onLogout} className="inline-flex items-center gap-2 rounded-md border border-soc-line px-3 py-2 font-bold text-slate-200 hover:bg-white/5">
             <LogOut className="h-4 w-4" /> Logout
           </button>
@@ -413,7 +466,7 @@ function EventsPanel({ events }) {
         <table className="w-full min-w-[920px] border-collapse font-mono text-sm">
           <thead className="bg-slate-950 text-left text-slate-300">
             <tr>
-              {['time', 'attack_type', 'src_ip', 'dest_ip', 'port', 'sid', 'signature', 'action'].map((head) => <th key={head} className="px-3 py-3">{head}</th>)}
+              {['time', 'attack_type', 'src_ip', 'dest_ip', 'port', 'sid', 'severity', 'signature', 'action'].map((head) => <th key={head} className="px-3 py-3">{head}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -425,6 +478,7 @@ function EventsPanel({ events }) {
                 <td className="px-3 py-3">{event.dest_ip}</td>
                 <td className="px-3 py-3">{event.dest_port}</td>
                 <td className="px-3 py-3">{event.signature_id}</td>
+                <td className="px-3 py-3">{event.severity ?? '-'}</td>
                 <td className="px-3 py-3">{event.signature}</td>
                 <td className="px-3 py-3"><span className={event.action === 'BLOCKED' ? 'text-soc-amber' : 'text-soc-red'}>{event.action}</span></td>
               </tr>
@@ -455,13 +509,13 @@ function ChatPanel({ messages, value, onChange, onSubmit }) {
   );
 }
 
-function TimelineChart() {
+function TimelineChart({ data = timeline }) {
   return (
     <section className="rounded-lg border border-soc-line bg-soc-panel p-5">
       <PanelTitle eyebrow="Timeline" title="시간대별 탐지 그래프" icon={Activity} />
       <div className="mt-5 h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={timeline}>
+          <AreaChart data={data}>
             <CartesianGrid stroke="#213447" strokeDasharray="3 3" />
             <XAxis dataKey="time" stroke="#94a3b8" />
             <YAxis stroke="#94a3b8" />
@@ -476,7 +530,7 @@ function TimelineChart() {
   );
 }
 
-function AttackTypeChart() {
+function AttackTypeChart({ data = attackTypes }) {
   return (
     <section className="rounded-lg border border-soc-line bg-soc-panel p-5">
       <PanelTitle eyebrow="Attack Types" title="공격 유형별 분포" icon={Radar} />
@@ -484,8 +538,8 @@ function AttackTypeChart() {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={attackTypes} dataKey="value" nameKey="name" innerRadius={58} outerRadius={92} paddingAngle={4}>
-                {attackTypes.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
+              <Pie data={data} dataKey="value" nameKey="name" innerRadius={58} outerRadius={92} paddingAngle={4}>
+                {data.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
               </Pie>
               <Tooltip contentStyle={{ background: '#0d1824', border: '1px solid #213447', color: '#fff' }} />
             </PieChart>
@@ -493,13 +547,13 @@ function AttackTypeChart() {
         </div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={attackTypes} layout="vertical">
+            <BarChart data={data} layout="vertical">
               <CartesianGrid stroke="#213447" strokeDasharray="3 3" />
               <XAxis type="number" stroke="#94a3b8" />
               <YAxis type="category" dataKey="name" stroke="#94a3b8" width={94} />
               <Tooltip contentStyle={{ background: '#0d1824', border: '1px solid #213447', color: '#fff' }} />
               <Bar dataKey="value" radius={[0, 6, 6, 0]}>
-                {attackTypes.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
+                {data.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
