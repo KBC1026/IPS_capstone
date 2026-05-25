@@ -145,8 +145,9 @@ class WazuhClient:
     def recent_events(self, limit: int = 50, attack_type: str | None = None, lab_only: bool | None = None) -> list[dict]:
         if lab_only is None:
             lab_only = self.default_lab_only
+        search_limit = 1000 if lab_only else limit
         try:
-            events = self._indexer_events(min(max(limit * 20, limit), 1000))
+            events = self._indexer_events(search_limit)
         except Exception as exc:
             logger.warning("Wazuh indexer event search failed: %s", exc)
             events = DEMO_EVENTS if self.demo_fallback else []
