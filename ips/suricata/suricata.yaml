@@ -610,7 +610,7 @@ logging:
 # Linux high speed capture support
 
 af-packet:
-  - interface: eth0
+  - interface: ens18
 
     # Number of receive threads. "auto" uses the number of cores
     threads: 1
@@ -814,7 +814,7 @@ dpdk:
 
 # Cross platform libpcap capture support
 pcap:
-  - interface: eth0
+  - interface: ens18
     # On Linux, pcap will try to use mmap'ed capture and will use "buffer-size"
     # as total memory used by the ring. So set this to something bigger
     # than 1% of your bandwidth.
@@ -1945,7 +1945,7 @@ capture:
 # You can find more information at https://github.com/luigirizzo/netmap
 #
 netmap:
-   # To specify OS endpoint add plus sign at the end (e.g. "eth0+")
+   # To specify OS endpoint add plus sign at the end (e.g. "eth")
  - interface: eth2
    # Number of capture threads. "auto" uses number of RSS queues on interface.
    # Warning: unless the RSS hashing is symmetrical, this will lead to
@@ -1958,10 +1958,10 @@ netmap:
    # will not be copied.
    # To specify the OS as the copy-iface (so the OS can route packets, or forward
    # to a service running on the same machine) add a plus sign at the end
-   # (e.g. "copy-iface: eth0+"). Don't forget to set up a symmetrical eth0+ -> eth0
+   # (e.g. "copy-iface: eth"). Don't forget to set up a symmetrical eth -> eth
    # for return packets. Hardware checksumming must be *off* on the interface if
-   # using an OS endpoint (e.g. 'ifconfig eth0 -rxcsum -txcsum -rxcsum6 -txcsum6' for FreeBSD
-   # or 'ethtool -K eth0 tx off rx off' for Linux).
+   # using an OS endpoint (e.g. 'ifconfig eth -rxcsum -txcsum -rxcsum6 -txcsum6' for FreeBSD
+   # or 'ethtool -K eth tx off rx off' for Linux).
    #copy-mode: tap
    #copy-iface: eth3
    # Set to yes to disable promiscuous mode
@@ -1988,7 +1988,7 @@ netmap:
 # PF_RING configuration: for use with native PF_RING support
 # for more info see http://www.ntop.org/products/pf_ring/
 pfring:
-  - interface: eth0
+  - interface: ens18
     # Number of receive threads. If set to 'auto' Suricata will first try
     # to use CPU (core) count and otherwise RSS queue count.
     threads: auto

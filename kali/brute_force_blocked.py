@@ -36,7 +36,7 @@ try:
             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             try:
                 # IPS 탐지 시 차단(Timeout)을 확인하기 위해 timeout 설정
-                res = requests.post(url, json=data, timeout=2)
+                res = requests.post(url, data=data, timeout=2)
                 status = res.status_code
             except requests.RequestException:
                 status = "Blocked/Timeout"

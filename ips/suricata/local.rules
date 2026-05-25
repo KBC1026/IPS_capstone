@@ -1,15 +1,17 @@
-drop icmp any any -> 192.168.2.100 any (msg:"LAB ICMP Ping Detected"; sid:1000001; rev:2;)
+drop icmp any any -> 192.168.2.100 any (msg:"LAB ICMP Ping Detected"; sid:1000001; rev:3;)
 
-alert tcp any any -> 192.168.2.100 any (msg:"LAB Port scan detected"; flags:S; detection_filter:track by_src, count 3, seconds 10; classtype:attempted-recon; sid:1000002; rev:6;)
+# Port scan: nmap -sS style SYN probes only. ACK/PSH HTTP traffic is excluded by flags:S,12.
+alert tcp any any -> 192.168.2.100 !5000 (msg:"LAB Port scan detected"; flags:S,12; flow:stateless; detection_filter:track by_src, count 12, seconds 10; classtype:attempted-recon; sid:1000002; rev:8;)
 
-alert http any any -> $HOME_NET $HTTP_PORTS (msg:"LAB WEB brute force detected"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login"; detection_filter:track by_src, count 6, seconds 60; classtype:web-application-attack; sid:1000003; rev:6;)
+# Brute force: repeated normal login submissions. Matches form-urlencoded and JSON bodies.
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB brute force detected"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login"; startswith; http.request_body; pcre:"/(^|[&{,\s\"])(username|user|id)(\"?\s*[:=]\s*\"?)[A-Za-z0-9_.@-]{1,64}/i"; pcre:"/(^|[&{,\s\"])(password|pass|pw)(\"?\s*[:=]\s*\"?)[A-Za-z0-9_.@!-]{1,64}/i"; detection_filter:track by_src, count 10, seconds 60; classtype:web-application-attack; sid:1000003; rev:9;)
 
-alert http any any -> $HOME_NET $HTTP_PORTS (msg:"LAB WEB credential stuffing - excessive POST /login"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login"; detection_filter:track by_src, count 6, seconds 60; classtype:web-application-attack; sid:1000004; rev:4;)
+# Credential stuffing: very high-volume normal credential attempts.
+alert http any any -> 192.168.2.100 5000 (msg:"LAB WEB credential stuffing - excessive POST /login"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login"; startswith; http.request_body; pcre:"/(^|[&{,\s\"])(username|user|id)(\"?\s*[:=]\s*\"?)[A-Za-z0-9_.@-]{1,64}/i"; pcre:"/(^|[&{,\s\"])(password|pass|pw)(\"?\s*[:=]\s*\"?)[A-Za-z0-9_.@!-]{1,64}/i"; detection_filter:track by_src, count 30, seconds 120; classtype:web-application-attack; sid:1000004; rev:7;)
 
-alert http any any -> 192.168.2.100 5000 (msg:"LAB SQL Injection detected"; flow:established,to_server; content:"' OR '1'='1"; nocase; classtype:web-application-attack; sid:1000005; rev:1;)
+# SQL Injection: classic authentication bypass payloads in URI or request body.
+drop http any any -> 192.168.2.100 5000 (msg:"LAB SQL Injection detected"; flow:established,to_server; http.uri; content:"/login"; startswith; pcre:"/((%27|')\s*or\s*(%27|')?1(%27|')?\s*(=|%3d)\s*(%27|')?1|or\s+1\s*(=|%3d)\s*1|admin(%27|')\s*(--|%2d%2d)|union\s+select|drop\s+table|--|%2d%2d|#|%23)/i"; classtype:web-application-attack; sid:1000005; rev:3;)
 
-drop http any any -> 192.168.2.100 5000 (msg:"LAB SQL Injection detected"; flow:established,to_server; http.uri; content:"/login"; http.request_body; pcre:"/(%27|'|%22|\")\s*(or|OR)\s*(%27|'|%22|\")?[0-9a-zA-Z_]+\s*(=|%3d)\s*(%27|'|%22|\")?[0-9a-zA-Z_]+/i"; classtype:web-application-attack; sid:1000006; rev:2;)
+drop http any any -> 192.168.2.100 5000 (msg:"LAB SQL Injection detected"; flow:established,to_server; http.uri; content:"/login"; startswith; http.request_body; pcre:"/((%27|')\s*or\s*(%27|')?1(%27|')?\s*(=|%3d)\s*(%27|')?1|or\s+1\s*(=|%3d)\s*1|admin(%27|')\s*(--|%2d%2d)|union\s+select|drop\s+table|--|%2d%2d|#|%23)/i"; classtype:web-application-attack; sid:1000006; rev:3;)
 
-drop http any any -> 192.168.2.100 5000 (msg:"LAB SQL Injection detected"; flow:established,to_server; http.uri; content:"/login"; http.request_body; pcre:"/(union\s+select|--|%2d%2d|#|%23|\/\*|drop\s+table)/i"; threshold:type limit, track by_src, count 3, seconds 60; classtype:web-application-attack; sid:1000007; rev:2;)
-
-drop http any any -> 192.168.2.100 5000 (msg:"LAB WEB admin page access"; flow:established,to_server; http.uri; content:"/admin"; classtype:web-application-activity; sid:1000008; rev:1;)
+drop http any any -> 192.168.2.100 5000 (msg:"LAB WEB admin page access"; flow:established,to_server; http.uri; content:"/admin"; startswith; classtype:web-application-activity; sid:1000008; rev:2;)

@@ -16,7 +16,7 @@ for cycle in range(1, REPEAT_COUNT + 1):
     for i, data in enumerate(payloads, start=1):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
-            res = requests.post(url, json=data, timeout=2)
+            res = requests.post(url, data=data, timeout=2)
             # 만약 통과되었다면 (미탐)
             with open(log_file, "a") as f:
                 f.write(f"{now} | BF_BLOCK_FAIL | status={res.status_code}\n")
