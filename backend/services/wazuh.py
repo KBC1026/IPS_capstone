@@ -57,8 +57,21 @@ LAB_SIGNATURES = (
     "LAB SQL Injection detected",
 )
 
+LAB_RULE_ATTACK_TYPES = {
+    "100001": "Port Scan",
+    "100002": "Brute Force",
+    "100003": "SQL Injection",
+    "1000002": "Port Scan",
+    "1000003": "Brute Force",
+    "1000005": "SQL Injection",
+}
+
+NOISE_SIGNATURE_IDS = {"1000001", "2016149", "2016150", "2019102"}
+
 NOISE_SIGNATURE_FRAGMENTS = (
     "ET INFO STUN",
+    "STUN Binding",
+    "Session Traversal Utilities for NAT",
     "SSDP",
     "LAB ICMP Ping Detected",
     "network_info",
@@ -260,7 +273,8 @@ def _normalize_event(hit: dict) -> dict:
     decoder = source.get("decoder", {})
     agent = source.get("agent", {})
     signature = alert.get("signature") or rule.get("description") or source.get("full_log") or "Unknown alert"
-    attack_type = _attack_type(signature, rule.get("groups", []))
+    signature_id = str(alert.get("signature_id") or rule.get("id", "-"))
+    attack_type = _attack_type(signature, rule.get("groups", []), signature_id)
     return {
         "id": hit.get("_id"),
         "timestamp": source.get("@timestamp", ""),
@@ -268,7 +282,7 @@ def _normalize_event(hit: dict) -> dict:
         "src_ip": _first_value(source, data, "src_ip", "srcip", "src_ip_addr", "source.ip", "win.eventdata.ipAddress"),
         "dest_ip": _first_value(source, data, "dest_ip", "dst_ip", "destip", "dstip", "destination.ip"),
         "dest_port": str(_first_value(source, data, "dest_port", "dst_port", "destination.port")),
-        "signature_id": str(alert.get("signature_id") or rule.get("id", "-")),
+        "signature_id": signature_id,
         "signature": signature,
         "severity": alert.get("severity") or rule.get("level", 0),
         "action": _action(source, alert, rule),
@@ -282,18 +296,24 @@ def _normalize_event(hit: dict) -> dict:
 def _is_lab_event(event: dict) -> bool:
     signature = str(event.get("signature", ""))
     signature_id = str(event.get("signature_id", ""))
-    return any(expected in signature for expected in LAB_SIGNATURES) and signature_id != "1000001"
+    if signature_id in NOISE_SIGNATURE_IDS:
+        return False
+    return signature_id in LAB_RULE_ATTACK_TYPES or any(expected in signature for expected in LAB_SIGNATURES)
 
 
 def _is_noise_event(event: dict) -> bool:
     signature = str(event.get("signature", ""))
     decoder = str(event.get("decoder", ""))
     signature_id = str(event.get("signature_id", ""))
-    text = f"{signature} {decoder}"
-    return signature_id == "1000001" or any(fragment in text for fragment in NOISE_SIGNATURE_FRAGMENTS)
+    groups = event.get("rule_groups", [])
+    group_text = " ".join(groups) if isinstance(groups, list) else str(groups or "")
+    text = f"{signature} {decoder} {group_text}"
+    return signature_id in NOISE_SIGNATURE_IDS or any(fragment in text for fragment in NOISE_SIGNATURE_FRAGMENTS)
 
 
-def _attack_type(signature: str, groups: list | str | None = None) -> str:
+def _attack_type(signature: str, groups: list | str | None = None, signature_id: str | None = None) -> str:
+    if signature_id in LAB_RULE_ATTACK_TYPES:
+        return LAB_RULE_ATTACK_TYPES[signature_id]
     group_text = " ".join(groups) if isinstance(groups, list) else str(groups or "")
     value = f"{signature} {group_text}".lower()
     if "sql" in value or "injection" in value:
