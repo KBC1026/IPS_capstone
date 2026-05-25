@@ -15,7 +15,7 @@ suricata-version: "7.0"
 vars:
   # more specific is better for alert accuracy and performance
   address-groups:
-    HOME_NET: "[117.16.174.0/24]"
+    HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,117.16.174.0/24]"
     #HOME_NET: "[192.168.0.0/16]"
 
     EXTERNAL_NET: "!$HOME_NET"
