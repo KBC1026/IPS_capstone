@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
   Bot,
+  ChevronLeft,
+  ChevronRight,
   Database,
   Lock,
   LogOut,
@@ -492,9 +494,30 @@ function SimulationPanel({ activeScenario, onRun }) {
 }
 
 function EventsPanel({ events }) {
+  const pageSize = 8;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(events.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const startIndex = (currentPage - 1) * pageSize;
+  const pageEvents = events.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    setPage(1);
+  }, [events]);
+
+  const goToPage = (nextPage) => {
+    setPage(Math.min(totalPages, Math.max(1, nextPage)));
+  };
+
   return (
     <section className="rounded-lg border border-soc-line bg-soc-panel p-5">
-      <PanelTitle eyebrow="Wazuh / Suricata Events" title="실시간 탐지 이벤트" icon={ShieldAlert} />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <PanelTitle eyebrow="Wazuh / Suricata Events" title="실시간 탐지 이벤트" icon={ShieldAlert} />
+        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-400">
+          <span className="font-mono">{events.length} events</span>
+          <span className="font-mono">{currentPage} / {totalPages}</span>
+        </div>
+      </div>
       <div className="mt-5 overflow-x-auto rounded-lg border border-soc-line">
         <table className="w-full min-w-[920px] border-collapse font-mono text-sm">
           <thead className="bg-slate-950 text-left text-slate-300">
@@ -508,7 +531,7 @@ function EventsPanel({ events }) {
                 <td className="px-3 py-6 text-center" colSpan={9}>표시할 이벤트가 없습니다.</td>
               </tr>
             )}
-            {events.map((event) => (
+            {pageEvents.map((event) => (
               <tr key={event.id} className="border-t border-soc-line text-slate-200">
                 <td className="px-3 py-3">{event.timestamp}</td>
                 <td className="px-3 py-3"><TypePill type={event.attack_type} /></td>
@@ -517,12 +540,45 @@ function EventsPanel({ events }) {
                 <td className="px-3 py-3">{event.dest_port}</td>
                 <td className="px-3 py-3">{event.signature_id}</td>
                 <td className="px-3 py-3">{event.severity ?? '-'}</td>
-                <td className="px-3 py-3">{event.signature}</td>
+                <td className="max-w-[340px] truncate px-3 py-3" title={event.signature}>{event.signature}</td>
                 <td className="px-3 py-3"><span className={event.action === 'BLOCKED' ? 'text-soc-amber' : 'text-soc-red'}>{event.action}</span></td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-slate-500">페이지당 {pageSize}건 표시</p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-soc-line bg-slate-950/50 text-slate-200 transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="이전 페이지"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+            <button
+              key={pageNumber}
+              type="button"
+              onClick={() => goToPage(pageNumber)}
+              className={`h-10 min-w-10 rounded-md border px-3 font-mono text-sm font-black transition ${pageNumber === currentPage ? 'border-soc-cyan bg-cyan-400/15 text-cyan-100' : 'border-soc-line bg-slate-950/50 text-slate-300 hover:bg-white/5'}`}
+            >
+              {pageNumber}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-soc-line bg-slate-950/50 text-slate-200 transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="다음 페이지"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </section>
   );
