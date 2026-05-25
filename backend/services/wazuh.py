@@ -161,7 +161,7 @@ class WazuhClient:
         return events[:limit]
 
     def summary(self, lab_only: bool | None = None) -> dict:
-        events = self.recent_events(limit=50000, lab_only=lab_only)
+        events = self.recent_events(limit=5000, lab_only=lab_only)
         counts = Counter(event.get("attack_type", "Unknown") for event in events)
         blocked = {event.get("src_ip") for event in events if event.get("action") == "BLOCKED" and event.get("src_ip")}
         return {
@@ -180,7 +180,7 @@ class WazuhClient:
         bucket_times = [start_hour + timedelta(hours=offset) for offset in range(13)]
         buckets = {hour.strftime("%H:00"): Counter() for hour in bucket_times}
 
-        for event in self.recent_events(limit=50000, lab_only=lab_only):
+        for event in self.recent_events(limit=5000, lab_only=lab_only):
             event_time = _parse_event_time(event.get("timestamp"))
             if not event_time:
                 continue

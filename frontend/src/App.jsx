@@ -612,7 +612,7 @@ function TimelineChart({ data = timeline }) {
           <AreaChart data={data}>
             <CartesianGrid stroke="#213447" strokeDasharray="3 3" />
             <XAxis dataKey="time" stroke="#94a3b8" />
-            <YAxis stroke="#94a3b8" domain={[0, 50000]} ticks={[0, 10000, 20000, 30000, 40000, 50000]} />
+            <YAxis stroke="#94a3b8" domain={[0, 5000]} ticks={[0, 1000, 2000, 3000, 4000, 5000]} />
             <Tooltip contentStyle={{ background: '#0d1824', border: '1px solid #213447', color: '#fff' }} />
             <Area type="monotone" dataKey="portscan" stackId="1" stroke="#26d9ff" fill="#26d9ff" fillOpacity={0.35} />
             <Area type="monotone" dataKey="bruteforce" stackId="1" stroke="#ff4d63" fill="#ff4d63" fillOpacity={0.35} />
