@@ -516,9 +516,8 @@ function NetworkFlow({ activeScenario }) {
   return (
     <section className="rounded-lg border border-soc-line bg-soc-panel p-5">
       <PanelTitle eyebrow="Network Flow" title="VM 조직도: Kali → IPS → Wazuh → Dashboard" icon={Network} />
-      <div className="mt-5 grid gap-4 xl:grid-cols-[1.35fr_0.85fr]">
-        <div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="mt-5 grid gap-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {flowNodes.map((node, index) => {
               const Icon = node.icon;
               const selected = selectedNodeId === node.id;
@@ -528,27 +527,27 @@ function NetworkFlow({ activeScenario }) {
                   key={node.id}
                   type="button"
                   onClick={() => setSelectedNodeId(node.id)}
-                  className={`relative min-h-36 rounded-lg border p-4 text-left outline-none transition hover:-translate-y-0.5 hover:bg-white/5 focus:ring-2 focus:ring-soc-cyan/70 ${selected ? 'border-soc-cyan bg-cyan-400/10 shadow-lg shadow-cyan-950/20' : running ? 'border-soc-amber/60 bg-amber-400/5' : 'border-soc-line bg-slate-950/50'}`}
+                  className={`relative min-h-32 rounded-lg border p-4 text-left outline-none transition hover:-translate-y-0.5 hover:bg-white/5 focus:ring-2 focus:ring-soc-cyan/70 ${selected ? 'border-soc-cyan bg-cyan-400/10 shadow-lg shadow-cyan-950/20' : running ? 'border-soc-amber/60 bg-amber-400/5' : 'border-soc-line bg-slate-950/50'}`}
                 >
                   <div className="mb-3 flex items-center justify-between">
                     <Icon className="h-5 w-5 text-soc-cyan" />
                     <span className="font-mono text-xs font-bold text-slate-500">0{index + 1}</span>
                   </div>
-                  <strong className="block text-white">{node.label}</strong>
-                  <small className="mt-1 block text-slate-400">{node.desc}</small>
-                  <span className="mt-3 block truncate font-mono text-xs font-bold text-slate-500">{node.ip}</span>
+                  <strong className="block break-words text-white">{node.label}</strong>
+                  <small className="mt-1 block min-h-10 text-sm leading-5 text-slate-400">{node.desc}</small>
+                  <span className="mt-3 block break-all font-mono text-xs font-bold text-slate-500">{node.ip}</span>
                   {index < flowNodes.length - 1 && (
                     <span className="pointer-events-none absolute -right-2 top-1/2 hidden h-px w-4 bg-soc-line xl:block" aria-hidden="true" />
                   )}
                 </button>
               );
             })}
-          </div>
-          <div className="mt-4 grid gap-2 rounded-lg border border-soc-line bg-slate-950/40 p-4 sm:grid-cols-3">
-            <FlowStep label="01 Generate" value="Kali 공격 테스트 트래픽 생성" />
-            <FlowStep label="02 Detect" value="IPS/Suricata/AI 탐지 및 차단" />
-            <FlowStep label="03 Observe" value="Wazuh 수집 후 Dashboard 표시" />
-          </div>
+        </div>
+
+        <div className="grid gap-2 rounded-lg border border-soc-line bg-slate-950/40 p-4 sm:grid-cols-3">
+          <FlowStep label="01 Generate" value="Kali 공격 테스트 트래픽 생성" />
+          <FlowStep label="02 Detect" value="IPS/Suricata/AI 탐지 및 차단" />
+          <FlowStep label="03 Observe" value="Wazuh 수집 후 Dashboard 표시" />
         </div>
 
         <aside className="rounded-lg border border-soc-line bg-slate-950/50 p-5">
@@ -559,7 +558,7 @@ function NetworkFlow({ activeScenario }) {
             </div>
             <SelectedIcon className="h-7 w-7 text-soc-cyan" />
           </div>
-          <dl className="mt-5 grid gap-3">
+          <dl className="mt-5 grid gap-4 md:grid-cols-2">
             <NodeDetail label="Address" value={selectedNode.ip} mono />
             <NodeDetail label="Role" value={selectedNode.role} />
             <NodeDetail label="Telemetry" value={selectedNode.telemetry} />
