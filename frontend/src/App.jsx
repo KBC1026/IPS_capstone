@@ -4,7 +4,9 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
+  CheckCircle2,
   Database,
+  FileJson,
   Lock,
   LogOut,
   Network,
@@ -16,6 +18,7 @@ import {
   ShieldAlert,
   Terminal,
   User,
+  X,
   Zap
 } from 'lucide-react';
 import {
@@ -125,6 +128,7 @@ function App() {
   const [wazuhHealth, setWazuhHealth] = useState(null);
   const [summaryData, setSummaryData] = useState(null);
   const [labOnly, setLabOnly] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const calculatedSummary = useMemo(() => {
     const count = (name) => events.filter((event) => event.attack_type === name).length;
@@ -259,7 +263,7 @@ function App() {
           <SimulationPanel activeScenario={activeScenario} onRun={runScenario} />
         </section>
         <section className="grid gap-4 xl:grid-cols-[1.25fr_0.9fr]">
-          <EventsPanel events={events} />
+          <EventsPanel events={events} onSelectEvent={setSelectedEvent} />
           <ChatPanel messages={chatMessages} value={chatInput} onChange={setChatInput} onSubmit={handleChat} />
         </section>
         <section className="grid gap-4 xl:grid-cols-[1fr_0.8fr]">
@@ -267,6 +271,7 @@ function App() {
           <AttackTypeChart data={attackTypeData} />
         </section>
       </main>
+      <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
     </div>
   );
 }
@@ -493,7 +498,7 @@ function SimulationPanel({ activeScenario, onRun }) {
   );
 }
 
-function EventsPanel({ events }) {
+function EventsPanel({ events, onSelectEvent }) {
   const pageSize = 8;
   const [page, setPage] = useState(1);
   const totalPages = Math.max(1, Math.ceil(events.length / pageSize));
@@ -532,7 +537,19 @@ function EventsPanel({ events }) {
               </tr>
             )}
             {pageEvents.map((event) => (
-              <tr key={event.id} className="border-t border-soc-line text-slate-200">
+              <tr
+                key={event.id}
+                tabIndex={0}
+                role="button"
+                onClick={() => onSelectEvent(event)}
+                onKeyDown={(keyboardEvent) => {
+                  if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+                    keyboardEvent.preventDefault();
+                    onSelectEvent(event);
+                  }
+                }}
+                className="border-t border-soc-line text-slate-200 outline-none transition hover:bg-cyan-400/5 focus:bg-cyan-400/10 focus:ring-2 focus:ring-inset focus:ring-soc-cyan/60"
+              >
                 <td className="px-3 py-3">{event.timestamp}</td>
                 <td className="px-3 py-3"><TypePill type={event.attack_type} /></td>
                 <td className="px-3 py-3">{event.src_ip}</td>
@@ -581,6 +598,150 @@ function EventsPanel({ events }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function EventDetailModal({ event, onClose }) {
+  const [showRawJson, setShowRawJson] = useState(false);
+
+  useEffect(() => {
+    setShowRawJson(false);
+  }, [event]);
+
+  useEffect(() => {
+    if (!event) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleEscape = (keyboardEvent) => {
+      if (keyboardEvent.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [event, onClose]);
+
+  if (!event) return null;
+
+  const severity = normalizeSeverity(event);
+  const protocol = event.protocol || inferProtocol(event.dest_port);
+  const aiSummary = buildAiSummary(event, severity);
+  const aiModelMetrics = buildAiModelMetrics();
+  const eventInfo = [
+    { label: '탐지 시간', value: event.timestamp || '-' },
+    { label: 'Source IP', value: event.src_ip || '-' },
+    { label: 'Destination IP', value: event.dest_ip || '-' },
+    { label: 'Destination Port', value: event.dest_port || '-' },
+    { label: 'Protocol', value: protocol },
+    { label: '탐지 룰 이름', value: event.signature || '-' },
+    { label: 'Signature ID', value: event.signature_id || '-' },
+    { label: 'Action', value: event.action || '-' }
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-black/70 px-3 py-4 backdrop-blur-sm sm:px-5"
+      onMouseDown={onClose}
+      aria-labelledby="event-detail-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <section
+        className="max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-lg border border-soc-line bg-soc-panel shadow-2xl shadow-black/60"
+        onMouseDown={(mouseEvent) => mouseEvent.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-3 border-b border-soc-line bg-slate-950/40 px-4 py-4 sm:px-6">
+          <div className="min-w-0">
+            <p className="text-xs font-black uppercase text-soc-cyan">Event Detail Modal</p>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <h2 id="event-detail-title" className="text-2xl font-black text-white">{event.attack_type || 'Unknown Event'}</h2>
+              <SeverityBadge severity={severity} />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-soc-line bg-slate-950/70 text-slate-200 transition hover:bg-white/10"
+            aria-label="이벤트 상세 모달 닫기"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="max-h-[calc(92vh-73px)] overflow-y-auto px-4 py-5 sm:px-6">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {eventInfo.map((item) => (
+              <div key={item.label} className="rounded-lg border border-soc-line bg-slate-950/50 p-4">
+                <p className="text-xs font-bold uppercase text-slate-500">{item.label}</p>
+                <p className="mt-2 break-words font-mono text-sm font-bold text-slate-100">{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <section className="mt-5 rounded-lg border border-soc-line bg-slate-950/35 p-4 sm:p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-xs font-black uppercase text-soc-cyan">AI Analysis Summary</p>
+                <h3 className="mt-1 text-lg font-black text-white">AI 분석 요약</h3>
+              </div>
+              <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-black text-cyan-100">SOC triage</span>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {aiModelMetrics.map((item) => (
+                <article key={item.label} className="rounded-lg border border-soc-line bg-slate-950/55 p-4">
+                  <p className="text-xs font-black uppercase text-slate-500">{item.label}</p>
+                  <strong className="mt-2 block font-mono text-xl font-black text-white">{item.value}</strong>
+                  <span className="mt-1 block text-xs leading-5 text-slate-400">{item.detail}</span>
+                </article>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-2">
+              {aiSummary.map((item) => (
+                <article key={item.label} className="rounded-lg border border-soc-line bg-soc-panel2 p-4">
+                  <p className="text-xs font-black uppercase text-slate-500">{item.label}</p>
+                  <p className="mt-2 leading-6 text-slate-200">{item.value}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {showRawJson && (
+            <pre className="mt-5 max-h-72 overflow-auto rounded-lg border border-soc-line bg-slate-950 p-4 font-mono text-xs leading-5 text-slate-200">
+              {JSON.stringify(event, null, 2)}
+            </pre>
+          )}
+
+          <div className="mt-5 flex flex-col gap-3 border-t border-soc-line pt-5 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={() => setShowRawJson((current) => !current)}
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-soc-line bg-slate-950/70 px-4 py-3 font-black text-slate-200 transition hover:bg-white/5"
+            >
+              <FileJson className="h-4 w-4" /> Raw JSON 보기
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-red-400/40 bg-red-400/10 px-4 py-3 font-black text-red-100 transition hover:bg-red-400/20"
+            >
+              <ShieldAlert className="h-4 w-4" /> IP 차단
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-soc-cyan px-4 py-3 font-black text-slate-950 transition hover:bg-cyan-300"
+            >
+              <CheckCircle2 className="h-4 w-4" /> 확인 완료
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -667,6 +828,97 @@ function PanelTitle({ eyebrow, title, icon: Icon }) {
       <Icon className="h-6 w-6 text-soc-cyan" />
     </div>
   );
+}
+
+
+function SeverityBadge({ severity }) {
+  const className = severity === 'Low'
+    ? 'border-green-400/40 bg-green-400/15 text-green-200'
+    : severity === 'Medium'
+      ? 'border-yellow-300/40 bg-yellow-300/15 text-yellow-100'
+      : severity === 'High'
+        ? 'border-orange-400/40 bg-orange-400/15 text-orange-100'
+        : 'border-red-400/50 bg-red-400/15 text-red-100';
+  return <span className={`rounded-full border px-3 py-1 text-xs font-black uppercase ${className}`}>{severity}</span>;
+}
+
+function normalizeSeverity(event) {
+  const raw = String(event.severity || '').toLowerCase();
+  if (['low', 'medium', 'high', 'critical'].includes(raw)) {
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  }
+
+  if (event.attack_type === 'SQL Injection') return 'Critical';
+  if (event.attack_type === 'Brute Force') return event.action === 'BLOCKED' ? 'High' : 'Medium';
+  if (event.attack_type === 'Port Scan') return event.action === 'BLOCKED' ? 'High' : 'Medium';
+  return 'Low';
+}
+
+function inferProtocol(port) {
+  const value = String(port || '');
+  if (value.includes('53')) return 'UDP/TCP';
+  if (value.includes('443')) return 'TCP/TLS';
+  return 'TCP';
+}
+
+
+function buildAiModelMetrics() {
+  return [
+    { label: 'Model', value: 'RF v3', detail: 'ai_ips_model_v3.pkl, 2026-05-30 12:08 UTC 기준' },
+    { label: '판정 일치율', value: '100%', detail: '900개 조합 비교 샘플 기준 900/900 동일 클래스' },
+    { label: '확신도 기준', value: '70%', detail: '미만이면 신종/이상 트래픽 의심으로 보류' },
+    { label: '주요 피처', value: '0.331', detail: 'special_char_count 중요도, login_fail_count 0.323' }
+  ];
+}
+
+function buildAiSummary(event, severity) {
+  const type = event.attack_type || 'Unknown';
+  const signature = event.signature || '탐지 룰 정보 없음';
+  const port = event.dest_port || '-';
+  const action = event.action || 'ALERT';
+
+  const profiles = {
+    'Port Scan': {
+      judgment: '다수 포트 접근 패턴을 기반으로 서비스 탐색 단계의 Port Scan으로 판단됩니다.',
+      pattern: `Destination Port ${port}, 룰 "${signature}" 및 짧은 시간대 반복 접근 징후가 분류 근거입니다.`,
+      intent: '공격 전 열려 있는 서비스와 취약한 진입점을 식별하려는 목적일 가능성이 큽니다.',
+      response: 'Source IP의 최근 연결 횟수를 확인하고, 필요 시 IPS 차단 정책과 Wazuh 상관분석 룰을 강화합니다.'
+    },
+    'SQL Injection': {
+      judgment: '웹 요청이 SQL Injection 시도로 분류된 고위험 애플리케이션 공격 이벤트입니다.',
+      pattern: `룰 "${signature}"가 SQL 구문 삽입 패턴을 탐지했고 Destination Port ${port}로 웹 서비스 접근이 발생했습니다.`,
+      intent: '인증 우회, 데이터베이스 정보 탈취, 데이터 변조를 노린 공격일 수 있습니다.',
+      response: '웹 서버 접근 로그와 파라미터를 검토하고 WAF/애플리케이션 입력 검증 및 DB 계정 권한을 점검합니다.'
+    },
+    'Brute Force': {
+      judgment: '반복 인증 시도 또는 로그인 실패 패턴에 기반한 Brute Force 이벤트입니다.',
+      pattern: `룰 "${signature}"와 Destination Port ${port} 접근 패턴이 계정 탈취 시도와 일치합니다.`,
+      intent: 'SSH 또는 웹 로그인 계정 탈취 후 내부 시스템 접근 권한을 확보하려는 목적일 수 있습니다.',
+      response: '계정 잠금 정책, MFA, 실패 로그인 임계치를 확인하고 동일 Source IP의 연속 이벤트를 추적합니다.'
+    }
+  };
+
+  const fallback = {
+    judgment: `${type} 이벤트로 분류되었으며 추가 로그 상관분석이 필요합니다.`,
+    pattern: `탐지 룰 "${signature}"와 Destination Port ${port} 값이 주요 분류 근거입니다.`,
+    intent: '서비스 식별, 취약점 탐색 또는 권한 확보를 위한 사전 행위일 수 있습니다.',
+    response: 'Source IP 평판, 동일 세션 이벤트, 대상 시스템 로그를 함께 확인합니다.'
+  };
+
+  const profile = profiles[type] || fallback;
+  const decision = action === 'BLOCKED'
+    ? `현재 IPS 정책에 의해 차단된 상태입니다. 위험도 ${severity} 이벤트로 관리자 사후 확인이 필요합니다.`
+    : `자동 차단 전 상태입니다. 위험도 ${severity} 기준으로 관리자 확인 후 차단 여부를 결정해야 합니다.`;
+  const confidencePolicy = 'v3 운영 로직은 predict_proba() 기준 최대 확신도 70% 미만을 공격으로 단정하지 않고 신종/이상 트래픽 의심으로 분류합니다.';
+
+  return [
+    { label: '공격 판단', value: profile.judgment },
+    { label: '분류 근거', value: profile.pattern },
+    { label: '예상 공격 목적', value: profile.intent },
+    { label: '권장 대응 방법', value: profile.response },
+    { label: 'AI 확신도 정책', value: confidencePolicy },
+    { label: '차단/확인 상태', value: decision }
+  ];
 }
 
 function TypePill({ type }) {
