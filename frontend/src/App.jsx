@@ -100,12 +100,72 @@ const attackTypes = [
 ];
 
 const flowNodes = [
-  { label: 'Kali', desc: 'Attacker VM', icon: Terminal },
-  { label: 'IPS', desc: 'Suricata + iptables', icon: ShieldAlert },
-  { label: 'Web', desc: 'Flask target', icon: Server },
-  { label: 'DB', desc: 'MySQL', icon: Database },
-  { label: 'Wazuh', desc: 'Manager + Indexer', icon: Radar },
-  { label: 'CHANXAI', desc: 'Cloudflare Pages', icon: Network }
+  {
+    id: 'kali',
+    label: 'Kali',
+    desc: 'Attack Simulation VM',
+    icon: Terminal,
+    ip: '117.16.174.60',
+    role: '허용된 공격 시나리오를 실행하는 테스트 VM입니다.',
+    services: ['port_scan_blocked.py', 'brute_force_blocked.py', 'sql_injection_blocked.py'],
+    telemetry: 'Port Scan, Brute Force, SQL Injection 테스트 트래픽을 Web/IPS 구간으로 발생시킵니다.',
+    security: '대상은 LAB 서버로 고정하고, 대시보드 API는 allowlist 시나리오만 SSH로 실행합니다.'
+  },
+  {
+    id: 'ips',
+    label: 'IPS',
+    desc: 'Suricata + iptables',
+    icon: ShieldAlert,
+    ip: '192.168.2.1',
+    role: 'Kali와 서비스 서버 사이에서 트래픽을 감시하고 차단하는 보안 게이트웨이입니다.',
+    services: ['Suricata IDS/IPS', 'iptables block rule', 'AI detector'],
+    telemetry: 'Suricata alert, AI 탐지 로그, 차단 IP 이벤트를 Wazuh 수집 대상으로 전달합니다.',
+    security: '룰 기반 탐지와 AI 보조 탐지를 함께 사용하며 반복 공격 IP는 차단 후보가 됩니다.'
+  },
+  {
+    id: 'web',
+    label: 'Web',
+    desc: 'Flask Target Server',
+    icon: Server,
+    ip: '192.168.2.100',
+    role: '로그인 서비스와 공격 테스트 대상 엔드포인트를 제공하는 웹 서버입니다.',
+    services: ['Flask login app', '/login endpoint', 'access/auth logs'],
+    telemetry: '로그인 실패, SQLi 의심 입력, HTTP 요청 결과를 이벤트 분석에 사용합니다.',
+    security: '계정 잠금, 입력 검증, 요청 로그 저장을 통해 공격 흔적을 남깁니다.'
+  },
+  {
+    id: 'db',
+    label: 'DB',
+    desc: 'MySQL Data Store',
+    icon: Database,
+    ip: '192.168.2.110',
+    role: '웹 서비스의 사용자 정보와 로그인 로그를 저장하는 데이터베이스 서버입니다.',
+    services: ['MySQL', 'login_db', 'auth_log table'],
+    telemetry: '인증 성공/실패 기록과 계정 잠금 상태를 보안 분석 근거로 제공합니다.',
+    security: '웹 서버에서만 접근하도록 제한하고 최소 권한 DB 계정을 사용하는 구성이 적합합니다.'
+  },
+  {
+    id: 'wazuh',
+    label: 'Wazuh',
+    desc: 'Manager + Indexer',
+    icon: Radar,
+    ip: '192.168.2.150',
+    role: '보안 이벤트를 중앙 수집, 검색, 상관분석하는 SIEM 서버입니다.',
+    services: ['Wazuh Manager', 'Wazuh Indexer', 'Wazuh API'],
+    telemetry: 'Suricata alert와 서버 로그를 인덱싱하고 대시보드 API가 최근 이벤트를 조회합니다.',
+    security: 'LAB 이벤트 필터링, 탐지 룰 이름, 위험도, Source/Destination 정보를 제공합니다.'
+  },
+  {
+    id: 'dashboard',
+    label: 'CHANXAI',
+    desc: 'SOC Dashboard',
+    icon: Network,
+    ip: 'chanxai.com',
+    role: '관제 사용자가 이벤트를 조회하고 시뮬레이션을 실행하는 프론트엔드입니다.',
+    services: ['Cloudflare Pages', 'api.chanxai.com', 'React dashboard'],
+    telemetry: 'Wazuh API 이벤트, AI 요약, 시나리오 실행 결과를 SOC 화면에 시각화합니다.',
+    security: '새 탭 이동 없이 모달과 패널로 상세 분석을 제공하고 API 호출은 백엔드로 제한합니다.'
+  }
 ];
 
 const scenarios = [
@@ -449,26 +509,91 @@ function KpiGrid({ summary, labOnly }) {
 }
 
 function NetworkFlow({ activeScenario }) {
+  const [selectedNodeId, setSelectedNodeId] = useState(flowNodes[0].id);
+  const selectedNode = flowNodes.find((node) => node.id === selectedNodeId) || flowNodes[0];
+  const SelectedIcon = selectedNode.icon;
+
   return (
     <section className="rounded-lg border border-soc-line bg-soc-panel p-5">
-      <PanelTitle eyebrow="Network Flow" title="Kali → IPS → Wazuh → Dashboard" icon={Network} />
-      <div className="mt-5 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
-        {flowNodes.map((node, index) => {
-          const Icon = node.icon;
-          const active = Boolean(activeScenario);
-          return (
-            <div key={node.label} className={`relative rounded-lg border p-4 ${active ? 'border-soc-cyan bg-cyan-400/10' : 'border-soc-line bg-slate-950/50'}`}>
-              <div className="mb-3 flex items-center justify-between">
-                <Icon className="h-5 w-5 text-soc-cyan" />
-                <span className="font-mono text-xs font-bold text-slate-500">0{index + 1}</span>
-              </div>
-              <strong className="block text-white">{node.label}</strong>
-              <small className="mt-1 block text-slate-400">{node.desc}</small>
+      <PanelTitle eyebrow="Network Flow" title="VM 조직도: Kali → IPS → Wazuh → Dashboard" icon={Network} />
+      <div className="mt-5 grid gap-4 xl:grid-cols-[1.35fr_0.85fr]">
+        <div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {flowNodes.map((node, index) => {
+              const Icon = node.icon;
+              const selected = selectedNodeId === node.id;
+              const running = Boolean(activeScenario);
+              return (
+                <button
+                  key={node.id}
+                  type="button"
+                  onClick={() => setSelectedNodeId(node.id)}
+                  className={`relative min-h-36 rounded-lg border p-4 text-left outline-none transition hover:-translate-y-0.5 hover:bg-white/5 focus:ring-2 focus:ring-soc-cyan/70 ${selected ? 'border-soc-cyan bg-cyan-400/10 shadow-lg shadow-cyan-950/20' : running ? 'border-soc-amber/60 bg-amber-400/5' : 'border-soc-line bg-slate-950/50'}`}
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <Icon className="h-5 w-5 text-soc-cyan" />
+                    <span className="font-mono text-xs font-bold text-slate-500">0{index + 1}</span>
+                  </div>
+                  <strong className="block text-white">{node.label}</strong>
+                  <small className="mt-1 block text-slate-400">{node.desc}</small>
+                  <span className="mt-3 block truncate font-mono text-xs font-bold text-slate-500">{node.ip}</span>
+                  {index < flowNodes.length - 1 && (
+                    <span className="pointer-events-none absolute -right-2 top-1/2 hidden h-px w-4 bg-soc-line xl:block" aria-hidden="true" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-4 grid gap-2 rounded-lg border border-soc-line bg-slate-950/40 p-4 sm:grid-cols-3">
+            <FlowStep label="01 Generate" value="Kali 공격 테스트 트래픽 생성" />
+            <FlowStep label="02 Detect" value="IPS/Suricata/AI 탐지 및 차단" />
+            <FlowStep label="03 Observe" value="Wazuh 수집 후 Dashboard 표시" />
+          </div>
+        </div>
+
+        <aside className="rounded-lg border border-soc-line bg-slate-950/50 p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase text-soc-cyan">Selected VM</p>
+              <h3 className="mt-1 text-xl font-black text-white">{selectedNode.label}</h3>
             </div>
-          );
-        })}
+            <SelectedIcon className="h-7 w-7 text-soc-cyan" />
+          </div>
+          <dl className="mt-5 grid gap-3">
+            <NodeDetail label="Address" value={selectedNode.ip} mono />
+            <NodeDetail label="Role" value={selectedNode.role} />
+            <NodeDetail label="Telemetry" value={selectedNode.telemetry} />
+            <NodeDetail label="Security Note" value={selectedNode.security} />
+          </dl>
+          <div className="mt-4">
+            <p className="text-xs font-black uppercase text-slate-500">Services</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {selectedNode.services.map((service) => (
+                <span key={service} className="rounded-full border border-soc-line bg-soc-panel px-3 py-1 font-mono text-xs font-bold text-slate-300">{service}</span>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
+  );
+}
+
+function FlowStep({ label, value }) {
+  return (
+    <div className="rounded-md border border-soc-line bg-soc-panel/80 p-3">
+      <p className="font-mono text-xs font-black text-soc-cyan">{label}</p>
+      <p className="mt-1 text-sm font-bold text-slate-200">{value}</p>
+    </div>
+  );
+}
+
+function NodeDetail({ label, value, mono = false }) {
+  return (
+    <div>
+      <dt className="text-xs font-black uppercase text-slate-500">{label}</dt>
+      <dd className={`mt-1 leading-6 text-slate-200 ${mono ? 'font-mono text-sm font-bold' : 'text-sm'}`}>{value}</dd>
+    </div>
   );
 }
 
